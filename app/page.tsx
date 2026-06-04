@@ -7,6 +7,7 @@ import Cursor from "@/components/Cursor"
 import Loader from "@/components/Loader"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
+import Hero from "@/components/sections/Hero"
 
 export default function Home() {
   const [loaderDone, setLoaderDone] = useState(false)
@@ -22,11 +23,9 @@ export default function Home() {
   return (
     <>
       <Cursor />
-
       {!loaderDone && (
         <Loader onComplete={() => setLoaderDone(true)} />
       )}
-
       <div
         style={{
           opacity: loaderDone ? 1 : 0,
@@ -35,12 +34,9 @@ export default function Home() {
       >
         <Navbar />
         <main>
-          {/* Sections come here in future epics */}
-          <div style={{ height: "300vh", paddingTop: "120px", paddingLeft: "40px" }}>
-            <p style={{ fontFamily: "var(--font-mono)", color: "var(--color-text-muted)" }}>
-              Epic 2 shell test — scroll down to test navbar frost
-            </p>
-          </div>
+          <Hero loaderDone={loaderDone} />
+          {/* About, Work, Connect come in future epics */}
+          <div style={{ height: "100vh" }} />
         </main>
         <Footer />
       </div>

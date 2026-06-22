@@ -135,6 +135,17 @@
   opacity: 0.06;
 }
 
+/* ── Navbar — theme-aware scroll background ── */
+nav {
+  background-color: transparent;
+}
+nav.nav-scrolled {
+  background-color: rgba(240, 236, 230, 0.88);
+}
+[data-theme="dark"] nav.nav-scrolled {
+  background-color: rgba(18, 16, 14, 0.88);
+}
+
 /* Section divider — thin decorative line between sections */
 .section-divider {
   width: 100%;

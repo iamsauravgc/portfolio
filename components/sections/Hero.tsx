@@ -9,6 +9,8 @@ import LaptopObject from "@/components/ui/LaptopObject"
 import PolaroidStack from "@/components/ui/PolaroidStack"
 import CamObject from "@/components/ui/CamObject"
 import HopeObject from "@/components/ui/HopeObject"
+import NowPlayingCard from "@/components/ui/NowPlayingCard"
+import TerminalSnippet from "@/components/ui/TerminalSnippet"
 
 
 interface HeroProps {
@@ -53,6 +55,8 @@ export default function Hero({ loaderDone }: HeroProps) {
           <PolaroidStack />
           <CamObject />
           <HopeObject />
+          <NowPlayingCard />
+          <TerminalSnippet />
         </div>
       )}
 
@@ -172,6 +176,41 @@ export default function Hero({ loaderDone }: HeroProps) {
           >
             CS · AI/ML · Kathmandu · GMT+5:45
           </motion.p>
+        )}
+
+        {/* Glyph strip */}
+        {loaderDone && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 0.5, ease: EASE_OUT_EXPO }}
+            style={{
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              justifyContent: "center",
+              maxWidth: "600px",
+              width: "100%",
+              marginTop: "24px",
+            }}
+          >
+            {Array.from({ length: 16 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 1.8 + i * 0.04, duration: 0.3, ease: EASE_OUT_EXPO }}
+                style={{
+                  height: "3px",
+                  flex: 1,
+                  borderRadius: "2px",
+                  backgroundColor: "var(--color-nothing-blue)",
+                  opacity: 0.08 + (i / 16) * 0.82,
+                  transformOrigin: "left center",
+                }}
+              />
+            ))}
+          </motion.div>
         )}
 
         {/* Scroll indicator */}

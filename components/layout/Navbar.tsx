@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { fadeUpVariants, staggerContainer, SPRING_SNAPPY } from "@/lib/animation"
 import Clock from "@/components/ui/Clock"
 import ThemeToggle from "@/components/ui/ThemeToggle"
@@ -14,18 +14,13 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { scrollY } = useScroll()
+  const [scrolled, setScrolled] = useState(false)
 
-  const navBgLight = useTransform(
-    scrollY, [0, 80],
-    ["rgba(240,236,230,0)", "rgba(240,236,230,0.88)"]
-  )
-  const navBgDark = useTransform(
-    scrollY, [0, 80],
-    ["rgba(18,16,14,0)", "rgba(18,16,14,0.88)"]
-  )
-  const navBlur = useTransform(scrollY, [0, 80], [0, 12])
-  const navBorderOpacity = useTransform(scrollY, [0, 80], [0, 1])
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 80)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <>
@@ -42,24 +37,23 @@ export default function Navbar() {
       >
         <motion.div
           style={{
-            backdropFilter: useTransform(navBlur, (v) => `blur(${v}px)`),
-            WebkitBackdropFilter: useTransform(navBlur, (v) => `blur(${v}px)`),
+            backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+            WebkitBackdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+            transition: "backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease",
           }}
         >
           <motion.nav
+            className={scrolled ? "nav-scrolled" : ""}
             style={{
-              backgroundColor: navBgLight,
               borderRadius: "12px",
               border: "1px solid",
-              borderColor: useTransform(
-                navBorderOpacity,
-                (v) => `rgba(28,24,20,${v * 0.08})`
-              ),
+              borderColor: scrolled ? "var(--color-border)" : "transparent",
               padding: "0 24px",
               height: "52px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              transition: "background-color 0.4s ease, border-color 0.4s ease",
             }}
           >
             {/* Logo */}

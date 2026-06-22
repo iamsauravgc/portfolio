@@ -70,8 +70,7 @@ export default function Loader({ onComplete }: LoaderProps) {
         alignItems: "center",
         justifyContent: "center",
         gap: "24px",
-        backgroundImage: "radial-gradient(circle, var(--dot-color) 1px, transparent 1px)",
-        backgroundSize: "28px 28px",
+
       }}
     >
       {/* Letters */}

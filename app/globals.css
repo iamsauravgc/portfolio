@@ -44,18 +44,17 @@
 /* ── Design Tokens ── */
 @theme {
   /* Colors — light mode */
-  --color-bg:             #F7F5F2;
-  --color-bg-elevated:    #EFECE8;
-  --color-bg-subtle:      #E7E3DD;
-  --color-text-primary:   #1C1A16;
-  --color-text-secondary: #5E5852;
-  --color-text-muted:     #8E8880;
+  --color-bg:             #F5EDD8;
+  --color-bg-elevated:    #EDE3CE;
+  --color-bg-subtle:      #E5DAC4;
+  --color-text-primary:   #2D1909;
+  --color-text-secondary: #6B5744;
+  --color-text-muted:     #9A8A78;
   --color-copper:         #C97D5A;
   --color-nothing-blue:   #3B8BEB;
-  --color-accent-red:     #D94A3A;
-  --color-border:         rgba(28, 24, 20, 0.08);
-  --color-border-strong:  rgba(28, 24, 20, 0.15);
-  --dot-color:            rgba(28, 24, 20, 0.04);
+  --color-accent-red:     #E63329;
+  --color-border:         rgba(45, 25, 9, 0.08);
+  --color-border-strong:  rgba(45, 25, 9, 0.15);
 
   /* Fonts */
   --font-display: 'Cabinet Grotesk', sans-serif;
@@ -66,18 +65,17 @@
 
 /* ── Dark Mode ── */
 [data-theme="dark"] {
-  --color-bg:             #141210;
-  --color-bg-elevated:    #1C1A18;
-  --color-bg-subtle:      #242220;
-  --color-text-primary:   #EDE8E0;
-  --color-text-secondary: #A09A94;
-  --color-text-muted:     #6A6660;
+  --color-bg:             #16130E;
+  --color-bg-elevated:    #1E1A14;
+  --color-bg-subtle:      #26221C;
+  --color-text-primary:   #EDE0C4;
+  --color-text-secondary: #9A8A72;
+  --color-text-muted:     #6A5C48;
   --color-copper:         #D48E6E;
-  --color-nothing-blue:   #5B9BEB;
-  --color-accent-red:     #E0695A;
-  --color-border:         rgba(235, 230, 222, 0.08);
-  --color-border-strong:  rgba(235, 230, 222, 0.15);
-  --dot-color:            rgba(235, 230, 222, 0.04);
+  --color-nothing-blue:   #3B8BEB;
+  --color-accent-red:     #E63329;
+  --color-border:         rgba(237, 224, 196, 0.08);
+  --color-border-strong:  rgba(237, 224, 196, 0.15);
 }
 
 /* ── Section Atmosphere ── */
@@ -166,12 +164,7 @@ html {
 
 body {
   background-color: var(--color-bg);
-  background-image: radial-gradient(
-    circle,
-    var(--dot-color) 1px,
-    transparent 1px
-  );
-  background-size: 28px 28px;
+
   color: var(--color-text-primary);
   font-family: var(--font-body);
   min-height: 100vh;

@@ -28,6 +28,7 @@ export default function ProjectPanel({ project, isFirst }: ProjectPanelProps) {
   return (
     <div
       ref={ref}
+      className="project-panel"
       style={{
         width: "100%",
         height: "100vh",

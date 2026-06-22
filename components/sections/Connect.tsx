@@ -88,6 +88,19 @@ export default function Connect() {
           </motion.h2>
         </div>
 
+        {/* Sticky-note CTA */}
+        <motion.div
+          className="sticky-note"
+          initial={{ opacity: 0, y: 12, rotate: -1 }}
+          animate={isInView ? { opacity: 1, y: 0, rotate: -1 } : { opacity: 0, y: 12, rotate: -1 }}
+          transition={{ delay: 0.45, duration: 0.5, ease: "easeOut" }}
+          style={{ marginBottom: "40px", maxWidth: "400px" }}
+        >
+          <p style={{ fontSize: "16px", lineHeight: 1.5, margin: 0 }}>
+            coffee&apos;s on me if you can name the Frank Ocean song this page&apos;s tagline is from.
+          </p>
+        </motion.div>
+
         {/* Links */}
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           {LINKS.map((link, i) => (
@@ -95,7 +108,7 @@ export default function Connect() {
               key={link.label}
               href={link.href}
               target={link.label !== "Email" ? "_blank" : undefined}
-              rel="noopener noreferrer"
+              rel={link.label !== "Email" ? "noopener noreferrer" : undefined}
               initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ delay: 0.5 + i * 0.08, ...SPRING_SMOOTH }}

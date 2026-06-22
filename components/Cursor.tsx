@@ -16,12 +16,20 @@ const CURSOR_VARIANTS = {
 export default function Cursor() {
   const [variant, setVariant] = useState<CursorVariant>("default")
   const [isVisible, setIsVisible] = useState(false)
+  const variantRef = useRef<CursorVariant>("default")
 
   const mouseX = useMotionValue(-100)
   const mouseY = useMotionValue(-100)
 
-  const springX = useSpring(mouseX, { stiffness: 300, damping: 25, mass: 0.3 })
-  const springY = useSpring(mouseY, { stiffness: 300, damping: 25, mass: 0.3 })
+  const springX = useSpring(mouseX, { stiffness: 500, damping: 28, mass: 0.2 })
+  const springY = useSpring(mouseY, { stiffness: 500, damping: 28, mass: 0.2 })
+
+  const updateVariant = (next: CursorVariant) => {
+    if (next !== variantRef.current) {
+      variantRef.current = next
+      setVariant(next)
+    }
+  }
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -33,22 +41,20 @@ export default function Cursor() {
     const handleLeave = () => setIsVisible(false)
     const handleEnter = () => setIsVisible(true)
 
-    // Detect interactive elements
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const el = target.closest("[data-cursor]") as HTMLElement | null
 
       if (el) {
-        const cursorType = el.dataset.cursor as CursorVariant
-        setVariant(cursorType || "default")
+        updateVariant((el.dataset.cursor as CursorVariant) || "default")
       } else if (
         target.closest("a") ||
         target.closest("button") ||
         target.closest("[role='button']")
       ) {
-        setVariant("link")
+        updateVariant("link")
       } else {
-        setVariant("default")
+        updateVariant("default")
       }
     }
 

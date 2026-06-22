@@ -1,130 +1,105 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { fadeUpVariants, staggerContainer, SPRING_SNAPPY } from "@/lib/animation"
+import { fadeUpVariants, staggerContainer } from "@/lib/animation"
 import Clock from "@/components/ui/Clock"
 
-
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
+  { label: "whoami", href: "#about" },
   { label: "Work", href: "#work" },
   { label: "Connect", href: "#connect" },
 ]
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 80)
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
 
   return (
     <>
-      <motion.header
+      {/* Signature name — scrolls away naturally */}
+      <a
+        href="#"
         style={{
-          position: "fixed",
-          top: "16px",
-          left: "16px",
-          right: "16px",
+          position: "absolute",
+          top: "24px",
+          left: "50%",
+          transform: "translateX(-50%)",
           zIndex: 100,
-          borderRadius: "12px",
-          filter: `blur(0px)`,
+          fontFamily: "var(--font-signature)",
+          fontSize: "64px",
+          color: "#1A1613",
+          textShadow: "0 3px 6px rgba(43,37,33,0.12)",
+          textDecoration: "none",
+          cursor: "none",
+          lineHeight: 1,
+          letterSpacing: "0.02em",
         }}
       >
-        <motion.div
-          style={{
-            backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
-            WebkitBackdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
-            transition: "backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease",
-          }}
-        >
-          <motion.nav
-            className={scrolled ? "nav-scrolled" : ""}
+        Saurav
+      </a>
+
+      {/* Desktop nav links — right side, stacked */}
+      <div
+        className="hidden sm:flex"
+        style={{
+          position: "fixed",
+          top: "28px",
+          right: "28px",
+          zIndex: 100,
+          flexDirection: "column",
+          gap: "6px",
+          alignItems: "flex-end",
+        }}
+      >
+        {NAV_LINKS.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            data-cursor="link"
             style={{
-              borderRadius: "12px",
-              border: "1px solid",
-              borderColor: scrolled ? "var(--color-border)" : "transparent",
-              padding: "0 24px",
-              height: "52px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              transition: "background-color 0.4s ease, border-color 0.4s ease",
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              color: "var(--color-text-muted)",
+              textDecoration: "none",
+              cursor: "none",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              lineHeight: 1.6,
+              transition: "color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--color-accent2)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--color-text-muted)"
             }}
           >
-            {/* Logo */}
-            <a
-              href="#"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "14px",
-                color: "var(--color-text-primary)",
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                gap: "2px",
-                cursor: "none",
-              }}
-            >
-              <span>./saurav</span>
-              <motion.span
-                animate={{ scale: [1, 1.5, 1] }}
-                transition={{
-                  duration: 0.6,
-                  repeat: Infinity,
-                  repeatDelay: 4,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  color: "var(--color-accent)",
-                  fontSize: "8px",
-                  lineHeight: 1,
-                }}
-              >
-                ●
-              </motion.span>
-            </a>
+            {link.label}
+          </a>
+        ))}
+      </div>
 
-            {/* Desktop nav links */}
-            <div
-              className="hidden sm:flex"
-              style={{ gap: "32px", alignItems: "center" }}
-            >
-              {NAV_LINKS.map((link) => (
-                <NavLink key={link.label} href={link.href} label={link.label} />
-              ))}
-            </div>
-
-            {/* Right: clock + hamburger */}
-            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-              <div className="hidden md:block">
-                <Clock />
-              </div>
-              {/* Mobile hamburger */}
-              <button
-                className="sm:hidden"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label="Toggle menu"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "none",
-                  color: "var(--color-text-primary)",
-                  fontSize: "18px",
-                  lineHeight: 1,
-                  padding: "4px",
-                }}
-              >
-                {mobileOpen ? "✕" : "☰"}
-              </button>
-            </div>
-          </motion.nav>
-        </motion.div>
-      </motion.header>
+      {/* Mobile hamburger — left side */}
+      <button
+        className="sm:hidden"
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open menu"
+        style={{
+          position: "fixed",
+          top: "28px",
+          left: "24px",
+          zIndex: 100,
+          background: "none",
+          border: "none",
+          cursor: "none",
+          color: "var(--color-text-primary)",
+          fontSize: "16px",
+          lineHeight: 1,
+          padding: "4px",
+        }}
+      >
+        ☰
+      </button>
 
       {/* Mobile overlay */}
       <AnimatePresence>
@@ -147,6 +122,26 @@ export default function Navbar() {
               gap: "40px",
             }}
           >
+            {/* Close button */}
+            <button
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+              style={{
+                position: "fixed",
+                top: "28px",
+                right: "24px",
+                background: "none",
+                border: "none",
+                cursor: "none",
+                color: "var(--color-text-primary)",
+                fontSize: "18px",
+                lineHeight: 1,
+                padding: "4px",
+                zIndex: 100,
+              }}
+            >
+              ✕
+            </button>
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -158,10 +153,25 @@ export default function Navbar() {
                 gap: "32px",
               }}
             >
+              <a
+                href="#"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  fontFamily: "var(--font-signature)",
+                  fontSize: "68px",
+                  color: "#1A1613",
+                  textDecoration: "none",
+                  cursor: "none",
+                  lineHeight: 1,
+                }}
+              >
+                Saurav
+              </a>
               {NAV_LINKS.map((link) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
+                  data-cursor="link"
                   variants={fadeUpVariants}
                   onClick={() => setMobileOpen(false)}
                   style={{
@@ -176,60 +186,11 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
+              <Clock />
             </motion.div>
-            <Clock />
           </motion.div>
         )}
       </AnimatePresence>
     </>
-  )
-}
-
-function NavLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      data-cursor="link"
-      style={{
-        position: "relative",
-        fontFamily: "var(--font-body)",
-        fontWeight: 400,
-        fontSize: "13px",
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        color: "var(--color-text-secondary)",
-        textDecoration: "none",
-        cursor: "none",
-        padding: "4px 0",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget
-        el.style.color = "var(--color-accent2)"
-        const dot = el.querySelector(".nav-dot") as HTMLElement
-        if (dot) dot.style.transform = "scaleX(1)"
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget
-        el.style.color = "var(--color-text-secondary)"
-        const dot = el.querySelector(".nav-dot") as HTMLElement
-        if (dot) dot.style.transform = "scaleX(0)"
-      }}
-    >
-      {label}
-      <span
-        className="nav-dot"
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "1px",
-          backgroundColor: "var(--color-accent2)",
-          transform: "scaleX(0)",
-          transformOrigin: "left",
-          transition: "transform 0.2s cubic-bezier(0.16,1,0.3,1)",
-        }}
-      />
-    </a>
   )
 }

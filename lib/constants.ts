@@ -6,7 +6,7 @@ export const PROJECTS = [
       stack: ["Python", "FastAPI", "React", "PostgreSQL", "scikit-learn"],
       live: "https://nepal-economic-dashboard.vercel.app",
       github: "https://github.com/saurav856/nepal-remittance-tracker",
-      image: "/images/projects/nepal-dashboard.png", // placeholder
+      image: "/images/projects/nepal-dashboard.svg",
     },
     {
       id: "02",
@@ -15,7 +15,7 @@ export const PROJECTS = [
       stack: ["Python", "Airflow", "Docker", "PostgreSQL", "Streamlit"],
       live: null,
       github: null,
-      image: "/images/projects/mlops.png",
+      image: "/images/projects/mlops.svg",
     },
     {
       id: "03",
@@ -24,7 +24,7 @@ export const PROJECTS = [
       stack: ["Python", "BeautifulSoup", "RSS", "GitHub Actions"],
       live: null,
       github: "https://github.com/saurav856/AI-News-Scraper",
-      image: "/images/projects/scraper.png",
+      image: "/images/projects/scraper.svg",
     },
     {
       id: "04",
@@ -33,7 +33,7 @@ export const PROJECTS = [
       stack: ["Python", "Open Source"],
       live: "https://github.com/TheAlgorithms/Python",
       github: null,
-      image: "/images/projects/algorithms.png",
+      image: "/images/projects/algorithms.svg",
     },
   ]
   

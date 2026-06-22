@@ -102,6 +102,23 @@ export default function About() {
               </span>
             ))}
           </div>
+
+          {/* Sticky-note personal touch */}
+          <motion.div
+            className="sticky-note"
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ delay: 0.35, duration: 0.5, ease: "easeOut" }}
+            style={{ marginTop: "40px", maxWidth: "320px" }}
+          >
+            <p style={{
+              fontSize: "15px",
+              lineHeight: 1.5,
+              margin: 0,
+            }}>
+              ask me about Frank Ocean&apos;s discography, the best momo spot in KTM, or why Nepal remittance data is fascinating.
+            </p>
+          </motion.div>
         </motion.div>
 
         {/* Right — Photo + Currently */}

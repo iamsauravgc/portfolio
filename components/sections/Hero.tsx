@@ -78,14 +78,12 @@ export default function Hero({ loaderDone }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6, ease: EASE_OUT_EXPO }}
             style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "12px",
+              fontFamily: "var(--font-handwritten)",
+              fontSize: "22px",
               color: "var(--color-text-muted)",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
             }}
           >
-            Hi, internet wanderer.
+            hey there, internet wanderer 👋
           </motion.p>
         )}
 

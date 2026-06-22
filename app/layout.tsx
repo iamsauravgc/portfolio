@@ -1,6 +1,10 @@
 import type { Metadata } from "next"
 import { GeistMono } from "geist/font/mono"
+import { Caveat, Marck_Script } from "next/font/google"
 import "./globals.css"
+
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-handwritten" })
+const marckScript = Marck_Script({ subsets: ["latin", "cyrillic"], weight: "400", variable: "--font-signature" })
 
 export const metadata: Metadata = {
   title: "Saurav G.C. — CS & AI/ML Engineer",
@@ -19,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={GeistMono.variable}>
+    <html lang="en" className={`${GeistMono.variable} ${caveat.variable} ${marckScript.variable}`}>
       <body>{children}</body>
     </html>
   )

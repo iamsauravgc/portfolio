@@ -19,17 +19,17 @@ export default function CamObject() {
     <motion.div
       initial={{ opacity: 0, scale: 0.85 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1.5, ...SPRING_SNAPPY }}
+      transition={{ delay: 1.2, ...SPRING_SNAPPY }}
       style={{
         position: "absolute",
-        bottom: "14%",
-        left: "4%",
-        zIndex: 4,
+        bottom: "0%",
+        left: "20%",
+        zIndex: 6,
       }}
     >
       <div
         style={{
-          rotate: "-12deg",
+          rotate: "-8deg",
           width: "150px",
           animation: "float3 8s ease-in-out infinite",
         }}

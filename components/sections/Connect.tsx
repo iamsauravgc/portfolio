@@ -56,10 +56,10 @@ export default function Connect() {
             transition={{ delay: 0.15, duration: 0.85, ease: EASE_OUT_EXPO }}
             style={{
               fontFamily: "var(--font-display)",
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: "clamp(52px, 8vw, 100px)",
               color: "var(--color-text-primary)",
-              letterSpacing: "-0.04em",
+              letterSpacing: "-0.01em",
               lineHeight: 0.95,
               margin: 0,
             }}
@@ -76,10 +76,10 @@ export default function Connect() {
             transition={{ delay: 0.3, duration: 0.85, ease: EASE_OUT_EXPO }}
             style={{
               fontFamily: "var(--font-display)",
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: "clamp(52px, 8vw, 100px)",
               color: "var(--color-text-primary)",
-              letterSpacing: "-0.04em",
+              letterSpacing: "-0.01em",
               lineHeight: 0.95,
               margin: 0,
             }}
@@ -136,7 +136,7 @@ export default function Connect() {
               <span style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "12px",
-                color: "var(--color-text-muted)",
+                color: "var(--color-text-secondary)",
                 letterSpacing: "0.04em",
               }}>
                 {link.mono} ↗

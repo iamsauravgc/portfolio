@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { fadeUpVariants, staggerContainer } from "@/lib/animation"
-import Clock from "@/components/ui/Clock"
 
 const NAV_LINKS = [
   { label: "whoami", href: "#about" },
@@ -22,8 +21,7 @@ export default function Navbar() {
         style={{
           position: "absolute",
           top: "24px",
-          left: "50%",
-          transform: "translateX(-50%)",
+          left: "24px",
           zIndex: 100,
           fontFamily: "var(--font-signature)",
           fontSize: "64px",
@@ -157,7 +155,7 @@ export default function Navbar() {
                 href="#"
                 onClick={() => setMobileOpen(false)}
                 style={{
-                  fontFamily: "var(--font-display)",
+                  fontFamily: "var(--font-signature)",
                   fontSize: "68px",
                   color: "#1A1613",
                   textDecoration: "none",
@@ -186,7 +184,6 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
-              <Clock />
             </motion.div>
           </motion.div>
         )}

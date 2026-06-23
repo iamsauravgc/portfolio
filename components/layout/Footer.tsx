@@ -48,7 +48,7 @@ export default function Footer() {
             style={{
               fontFamily: "var(--font-handwritten)",
               fontSize: "17px",
-              color: "var(--color-text-muted)",
+              color: "var(--color-text-secondary)",
             }}
           >
             designed &amp; built with ☕️ and Frank Ocean loops
@@ -90,16 +90,15 @@ export default function Footer() {
             }}
           >
             <span style={{ fontSize: "24px", lineHeight: 1, marginRight: "4px", display: "inline-block" }}>🌊</span>
-            &ldquo;Too weird to live, too rare to die.&rdquo;
+            &ldquo;I'm sure we're taller in another dimension.&rdquo;
           </p>
           <p
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "11px",
-              color: "var(--color-text-muted)",
+              color: "var(--color-text-secondary)",
               textAlign: "center",
               margin: 0,
-              opacity: 0.6,
             }}
           >
             — Frank Ocean

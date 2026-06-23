@@ -8,7 +8,7 @@ import Loader from "@/components/Loader"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import HeroSection from "@/components/hero/HeroSection"
-import About from "@/components/sections/About" 
+import WhoAmI from "@/components/sections/WhoAmI"
 import Work from "@/components/sections/Work"
 import Connect from "@/components/sections/Connect"
 
@@ -40,7 +40,7 @@ export default function Home() {
         <main>
           <HeroSection loaderDone={loaderDone} />
           <div className="section-divider" />
-          <About />
+          <WhoAmI />
           <div className="section-divider" />
           <Work />
           <div className="section-divider" />

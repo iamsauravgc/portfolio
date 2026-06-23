@@ -2,14 +2,6 @@
 
 /* ── Font Face Declarations ── */
 @font-face {
-  font-family: 'Clash Display';
-  src: url('/fonts/ClashDisplay-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'Neue Montreal';
   src: url('/fonts/NeueMontreal-Regular.otf') format('opentype');
   font-weight: 400;
@@ -53,12 +45,13 @@
   --color-accent2:        #E8A33D;
   --color-border:         rgba(43, 37, 33, 0.10);
   --color-border-strong:  rgba(43, 37, 33, 0.18);
-  --font-display:     'Clash Display', sans-serif;
+  --font-display:     'Fraunces', Georgia, serif;
   --font-body:        'Neue Montreal', sans-serif;
   --font-mono:        'JetBrains Mono', 'Space Mono', monospace;
   --font-accent:      'NDot55', monospace;
   --font-handwritten: 'Reenie Beanie', 'Comic Sans MS', cursive;
   --font-signature:   'Historia Sky', cursive;
+  --font-geist-mono:  'Geist Mono', monospace;
 }
 
 /* ── Sections — inherit body bg + dot grid ── */
@@ -257,6 +250,11 @@ html.lenis body {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* ── Hero objects wrapper — scale on mobile ── */

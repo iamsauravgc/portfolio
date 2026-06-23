@@ -66,10 +66,10 @@ export default function ProjectPanel({ project, isFirst }: ProjectPanelProps) {
       >
         <h3 style={{
           fontFamily: "var(--font-display)",
-          fontWeight: 800,
+          fontWeight: 600,
           fontSize: "clamp(40px, 5vw, 72px)",
           color: "var(--color-text-primary)",
-          letterSpacing: "-0.03em",
+          letterSpacing: "-0.01em",
           lineHeight: 1,
           margin: "0 0 24px",
         }}>

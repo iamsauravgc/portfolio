@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { motion, useScroll, useTransform, type Variants } from "framer-motion"
 import PhoneObject from "@/components/hero/objects/PhoneObject"
-import VinylObject from "@/components/hero/objects/VinylObject"
+import { VinylPlayer } from "@/components/hero/objects/VinylPlayer"
 import LaptopObject from "@/components/hero/objects/LaptopObject"
 import PolaroidCard from "@/components/hero/objects/PolaroidCard"
 import CamObject from "@/components/hero/objects/CamObject"
@@ -55,7 +55,7 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
       {loaderDone && (
         <div className="hero-objects-wrapper">
           <PhoneObject />
-          <VinylObject />
+          <VinylPlayer />
           <LaptopObject />
           <PolaroidCard />
           <CamObject />
@@ -149,11 +149,11 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
         >
           <span
             style={{
-              fontFamily: "var(--font-accent)",
-              fontSize: "12px",
-              color: "var(--color-text-muted)",
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: "13px",
+              color: "var(--color-text-primary)",
               letterSpacing: "0.2em",
-              opacity: 0.5,
+              opacity: 0.8,
             }}
           >
             ↓ scroll

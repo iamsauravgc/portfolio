@@ -18,17 +18,17 @@ export default function HopeObject() {
     <motion.div
       initial={{ opacity: 0, scale: 0.85 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1.35, duration: 0.5, ease: "easeOut" }}
+      transition={{ delay: 1.4, duration: 0.5, ease: "easeOut" }}
       style={{
         position: "absolute",
-        top: "2%",
-        left: "1%",
+        top: "60%",
+        left: "8%",
       }}
     >
       <audio ref={audioRef} src="/sounds/paper-crinkle.mp3" preload="auto" />
       <div
         style={{
-          rotate: "5deg",
+          rotate: "-10deg",
           width: "170px",
           animation: "float2 9s ease-in-out infinite",
         }}

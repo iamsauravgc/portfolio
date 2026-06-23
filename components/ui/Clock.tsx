@@ -12,8 +12,7 @@ export default function Clock() {
       const npt = new Date(utc + 3600000 * 5.75)
       const h = String(npt.getHours()).padStart(2, "0")
       const m = String(npt.getMinutes()).padStart(2, "0")
-      const s = String(npt.getSeconds()).padStart(2, "0")
-      return `${h}:${m}:${s} NPT`
+      return `${h}:${m}`
     }
 
     setTime(getNPT())

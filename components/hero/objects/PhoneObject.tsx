@@ -13,7 +13,7 @@ export default function PhoneObject() {
       transition={{ delay: 1.2, ...SPRING_SNAPPY }}
       style={{
         position: "absolute",
-        top: "5%",
+        top: "18%",
         left: "8%",
         rotate: "-10deg",
         width: "190px",

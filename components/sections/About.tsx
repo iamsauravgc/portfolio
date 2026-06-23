@@ -69,7 +69,7 @@ export default function About() {
 
           <p style={{
             fontFamily: "var(--font-body)",
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: "18px",
             lineHeight: 1.75,
             color: "var(--color-text-secondary)",
@@ -81,27 +81,15 @@ export default function About() {
             Always in &quot;let me try this&quot; mode.
           </p>
 
-          <div style={{
-            display: "flex",
-            gap: "10px",
+          <p style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "13px",
+            color: "var(--color-text-muted)",
+            letterSpacing: "0.04em",
             marginTop: "32px",
-            flexWrap: "wrap",
           }}>
-            {["Python", "TypeScript", "React", "FastAPI", "PostgreSQL", "Docker"].map((tech) => (
-              <span key={tech} style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "10px",
-                letterSpacing: "0.06em",
-                padding: "5px 12px",
-                borderRadius: "100px",
-                border: "1px solid var(--color-border-strong)",
-                color: "var(--color-accent2)",
-                backgroundColor: "rgba(59,139,235,0.06)",
-              }}>
-                {tech}
-              </span>
-            ))}
-          </div>
+            Python · TypeScript · React · FastAPI · PostgreSQL · Docker
+          </p>
 
           {/* Sticky-note personal touch */}
           <motion.div

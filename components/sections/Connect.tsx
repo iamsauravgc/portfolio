@@ -37,7 +37,7 @@ export default function Connect() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0, duration: 0.6, ease: EASE_OUT_EXPO }}
           style={{
-            fontFamily: "var(--font-mono)",
+            fontFamily: "var(--font-body)",
             fontSize: "14px",
             color: "var(--color-text-muted)",
             fontStyle: "italic",
@@ -125,10 +125,10 @@ export default function Connect() {
               }}
             >
               <span style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 800,
-                fontSize: "clamp(20px, 3vw, 28px)",
-                letterSpacing: "-0.02em",
+                fontFamily: "var(--font-body)",
+                fontWeight: 500,
+                fontSize: "clamp(16px, 2vw, 20px)",
+                letterSpacing: "0.01em",
                 flex: 1,
               }}>
                 {link.label}

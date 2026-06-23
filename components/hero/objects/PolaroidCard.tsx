@@ -21,8 +21,8 @@ export default function PolaroidCard() {
       transition={{ delay: 1.6, ...SPRING_BOUNCY }}
       style={{
         position: "absolute",
-        bottom: "6%",
-        right: "8%",
+        bottom: "0%",
+        right: "6%",
         width: "300px",
         height: "390px",
         animation: "float4 12s ease-in-out infinite",

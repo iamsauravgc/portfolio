@@ -7,10 +7,10 @@ import Image from "next/image"
 export default function HopeObject() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  const playSound = () => {
+  const playSound = async () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0
-      audioRef.current.play()
+      try { await audioRef.current.play() } catch {}
     }
   }
 
@@ -21,8 +21,8 @@ export default function HopeObject() {
       transition={{ delay: 1.35, duration: 0.5, ease: "easeOut" }}
       style={{
         position: "absolute",
-        top: "46%",
-        left: "5%",
+        top: "2%",
+        left: "1%",
       }}
     >
       <audio ref={audioRef} src="/sounds/paper-crinkle.mp3" preload="auto" />

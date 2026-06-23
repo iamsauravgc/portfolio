@@ -14,7 +14,7 @@ export default function LaptopObject() {
       style={{
         position: "absolute",
         top: "5%",
-        right: "8%",
+        right: "6%",
         rotate: "-6deg",
         width: "280px",
         animation: "float1 11s ease-in-out infinite",

@@ -8,15 +8,17 @@ export default function VinylObject() {
   const needleControls = useAnimation()
   const spinRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const playingRef = useRef(false)
 
-  const handleHoverStart = () => {
+  const handleHoverStart = async () => {
     if (spinRef.current) {
       spinRef.current.style.setProperty("--spin-duration", "2s")
     }
     needleControls.start({ rotate: 0, transition: { duration: 0.4, ease: "easeOut" } })
     if (audioRef.current) {
       audioRef.current.currentTime = 0
-      audioRef.current.play()
+      playingRef.current = true
+      try { await audioRef.current.play() } catch { playingRef.current = false }
     }
   }
 
@@ -25,7 +27,10 @@ export default function VinylObject() {
       spinRef.current.style.setProperty("--spin-duration", "8s")
     }
     needleControls.start({ rotate: -25, transition: { duration: 0.4, ease: "easeOut" } })
-    audioRef.current?.pause()
+    if (playingRef.current) {
+      playingRef.current = false
+      audioRef.current?.pause()
+    }
   }
 
   return (
@@ -39,7 +44,7 @@ export default function VinylObject() {
       style={{
         position: "absolute",
         bottom: "4%",
-        left: "22%",
+        left: "8%",
         rotate: "8deg",
         width: "260px",
         pointerEvents: "auto",

@@ -78,7 +78,7 @@ export default function ProjectPanel({ project, isFirst }: ProjectPanelProps) {
 
         <p style={{
           fontFamily: "var(--font-body)",
-          fontWeight: 300,
+          fontWeight: 400,
           fontSize: "18px",
           color: "var(--color-text-secondary)",
           lineHeight: 1.7,

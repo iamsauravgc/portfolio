@@ -96,7 +96,7 @@ export default function FooterOptionB() {
           <p
             style={{
               fontFamily: "var(--font-body)",
-              fontWeight: 300,
+              fontWeight: 400,
               fontStyle: "italic",
               fontSize: "clamp(16px, 2.5vw, 20px)",
               color: "var(--color-text-secondary)",

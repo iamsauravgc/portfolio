@@ -24,7 +24,7 @@ export default function Clock() {
   return (
     <span
       style={{
-        fontFamily: "var(--font-mono)",
+        fontFamily: "var(--font-accent)",
         fontSize: "12px",
         color: "var(--color-text-muted)",
         letterSpacing: "0.04em",

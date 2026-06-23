@@ -16,12 +16,12 @@ interface HeroSectionProps {
 const staggerVariants: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.3 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.3 },
   },
 }
 
 const lineVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
@@ -51,15 +51,9 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
         padding: "120px 40px 80px",
       }}
     >
-      {/* Scattered objects — desktop only */}
+      {/* Objects — visible on all screens, scaled on mobile */}
       {loaderDone && (
-        <div
-          className="hidden lg:block"
-          style={{
-            position: "absolute",
-            inset: 0,
-          }}
-        >
+        <div className="hero-objects-wrapper">
           <PhoneObject />
           <VinylObject />
           <LaptopObject />
@@ -69,118 +63,101 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
         </div>
       )}
 
-      {/* Center content */}
+      {/* Text content — centered */}
       {loaderDone && (
         <motion.div
           variants={staggerVariants}
           initial="hidden"
           animate="visible"
           style={{
-            position: "relative",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -55%)",
             zIndex: 10,
+            maxWidth: "420px",
+            width: "calc(100% - 64px)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
-            maxWidth: "900px",
-            width: "100%",
+            gap: "20px",
+            pointerEvents: "none",
           }}
         >
-          {/* Line 1 — greeting */}
+          {/* Handwritten greeting */}
+          <motion.p
+            variants={lineVariants}
+            style={{
+              fontFamily: "var(--font-handwritten)",
+              fontSize: "clamp(20px, 3vw, 26px)",
+              color: "#B5654A",
+              margin: 0,
+              lineHeight: 1.2,
+            }}
+          >
+            hey there
+          </motion.p>
+
+          {/* Lead sentence */}
           <motion.p
             variants={lineVariants}
             style={{
               fontFamily: "var(--font-body)",
-              fontStyle: "italic",
-              fontSize: "18px",
-              color: "var(--color-text-muted)",
-              marginBottom: "12px",
-            }}
-          >
-            Welcome to my little corner of the internet
-          </motion.p>
-
-          {/* Line 2 — headline */}
-          <motion.p
-            variants={lineVariants}
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: "clamp(48px, 9vw, 120px)",
+              fontWeight: 400,
+              fontSize: "clamp(18px, 2.5vw, 24px)",
               color: "var(--color-text-primary)",
-              letterSpacing: "-0.04em",
-              lineHeight: 0.95,
+              lineHeight: 1.5,
               margin: 0,
+              letterSpacing: "0.01em",
             }}
           >
-            I turn ideas into
+            Hi, I&apos;m Saurav — I turn ideas into things you click.
           </motion.p>
 
-          {/* Line 3 — headline */}
-          <motion.p
-            variants={lineVariants}
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: "clamp(48px, 9vw, 120px)",
-              color: "var(--color-text-primary)",
-              letterSpacing: "-0.04em",
-              lineHeight: 0.95,
-              margin: 0,
-            }}
-          >
-            things you can click.
-          </motion.p>
-
-          {/* Line 4 — sub */}
+          {/* Tagline */}
           <motion.p
             variants={lineVariants}
             style={{
               fontFamily: "var(--font-body)",
-              fontStyle: "italic",
-              fontSize: "15px",
+              fontWeight: 400,
+              fontSize: "clamp(14px, 1.5vw, 16px)",
               color: "var(--color-text-muted)",
-              marginTop: "24px",
+              margin: 0,
+              letterSpacing: "0.04em",
             }}
           >
-            a room on the internet.
+            student · developer · maker
           </motion.p>
+        </motion.div>
+      )}
 
-          {/* Byline */}
-          <motion.p
-            variants={lineVariants}
+      {/* Scroll indicator */}
+      {loaderDone && (
+        <motion.div
+          variants={lineVariants}
+          style={{
+            position: "absolute",
+            bottom: "8%",
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            zIndex: 10,
+            opacity: scrollOpacity,
+          }}
+        >
+          <span
             style={{
-              fontFamily: "var(--font-mono)",
+              fontFamily: "var(--font-accent)",
               fontSize: "12px",
               color: "var(--color-text-muted)",
-              alignSelf: "flex-end",
-              marginTop: "8px",
-              letterSpacing: "0.02em",
+              letterSpacing: "0.2em",
+              opacity: 0.5,
             }}
           >
-            — Saurav G.C.
-          </motion.p>
-
-          {/* Scroll indicator */}
-          <motion.div
-            variants={lineVariants}
-            style={{ opacity: scrollOpacity, marginTop: "48px" }}
-          >
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                color: "var(--color-text-muted)",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                opacity: 0.4,
-              }}
-            >
-              scroll
-            </motion.div>
-          </motion.div>
+            ↓ scroll
+          </span>
         </motion.div>
       )}
     </section>

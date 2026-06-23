@@ -57,7 +57,7 @@ export default function Navbar() {
             href={link.href}
             data-cursor="link"
             style={{
-              fontFamily: "var(--font-mono)",
+              fontFamily: "var(--font-body)",
               fontSize: "11px",
               color: "var(--color-text-muted)",
               textDecoration: "none",
@@ -157,7 +157,7 @@ export default function Navbar() {
                 href="#"
                 onClick={() => setMobileOpen(false)}
                 style={{
-                  fontFamily: "var(--font-signature)",
+                  fontFamily: "var(--font-display)",
                   fontSize: "68px",
                   color: "#1A1613",
                   textDecoration: "none",
@@ -175,9 +175,9 @@ export default function Navbar() {
                   variants={fadeUpVariants}
                   onClick={() => setMobileOpen(false)}
                   style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 800,
-                    fontSize: "clamp(32px, 8vw, 56px)",
+                    fontFamily: "var(--font-body)",
+                    fontWeight: 500,
+                    fontSize: "clamp(28px, 6vw, 42px)",
                     color: "var(--color-text-primary)",
                     textDecoration: "none",
                     cursor: "none",

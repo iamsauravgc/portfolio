@@ -2,32 +2,24 @@
 
 /* ── Font Face Declarations ── */
 @font-face {
-  font-family: 'Cabinet Grotesk';
-  src: url('/fonts/CabinetGrotesk-Extrabold.woff2') format('woff2');
-  font-weight: 800;
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -36,6 +28,14 @@
 @font-face {
   font-family: 'NDot55';
   src: url('/fonts/Ndot55Caps-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Historia Sky';
+  src: url('/fonts/HistoriaSky.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -53,12 +53,12 @@
   --color-accent2:        #E8A33D;
   --color-border:         rgba(43, 37, 33, 0.10);
   --color-border-strong:  rgba(43, 37, 33, 0.18);
-  --font-display:     'Cabinet Grotesk', sans-serif;
-  --font-body:        'Satoshi', sans-serif;
-  --font-mono:        'Geist Mono', 'Space Mono', monospace;
+  --font-display:     'Clash Display', sans-serif;
+  --font-body:        'Neue Montreal', sans-serif;
+  --font-mono:        'JetBrains Mono', 'Space Mono', monospace;
   --font-accent:      'NDot55', monospace;
-  --font-handwritten: 'Caveat', 'Comic Sans MS', cursive;
-  --font-signature:   'Marck Script', cursive;
+  --font-handwritten: 'Reenie Beanie', 'Comic Sans MS', cursive;
+  --font-signature:   'Historia Sky', cursive;
 }
 
 /* ── Sections — inherit body bg + dot grid ── */
@@ -257,4 +257,16 @@ html.lenis body {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* ── Hero objects wrapper — scale on mobile ── */
+.hero-objects-wrapper {
+  position: absolute;
+  inset: 0;
+}
+@media (max-width: 768px) {
+  .hero-objects-wrapper {
+    transform: scale(0.5);
+    transform-origin: center center;
+  }
 }

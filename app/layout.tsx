@@ -1,11 +1,17 @@
 import type { Metadata } from "next"
-import { GeistMono } from "geist/font/mono"
-import { Caveat, Marck_Script } from "next/font/google"
+import { JetBrains_Mono, Reenie_Beanie } from "next/font/google"
+import localFont from "next/font/local"
 import Dot from "@/components/animata/background/dot"
 import "./globals.css"
 
-const caveat = Caveat({ subsets: ["latin"], variable: "--font-handwritten" })
-const marckScript = Marck_Script({ subsets: ["latin", "cyrillic"], weight: "400", variable: "--font-signature" })
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
+const reenieBeanie = Reenie_Beanie({ subsets: ["latin"], weight: "400", variable: "--font-handwritten" })
+const historiaSky = localFont({
+  src: "../public/fonts/HistoriaSky.ttf",
+  variable: "--font-signature",
+  weight: "400",
+  style: "normal",
+})
 
 export const metadata: Metadata = {
   title: "Saurav G.C. — CS & AI/ML Engineer",
@@ -24,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${GeistMono.variable} ${caveat.variable} ${marckScript.variable}`}>
+    <html lang="en" className={`${jetbrainsMono.variable} ${reenieBeanie.variable} ${historiaSky.variable}`}>
       <body>
         <Dot color="rgba(0,0,0,0.12)" size={1.2} spacing={10} style={{ backgroundColor: "var(--color-bg)", minHeight: "100vh" }}>
           {children}

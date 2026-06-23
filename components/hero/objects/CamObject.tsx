@@ -8,10 +8,10 @@ import { SPRING_SNAPPY } from "@/lib/animation"
 export default function CamObject() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  const playShutter = () => {
+  const playShutter = async () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0
-      audioRef.current.play()
+      try { await audioRef.current.play() } catch {}
     }
   }
 
@@ -22,8 +22,8 @@ export default function CamObject() {
       transition={{ delay: 1.5, ...SPRING_SNAPPY }}
       style={{
         position: "absolute",
-        bottom: "8%",
-        left: "6%",
+        bottom: "14%",
+        left: "4%",
         zIndex: 4,
       }}
     >

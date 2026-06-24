@@ -1,48 +1,48 @@
 "use client"
 
-import { useRef } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import { SPRING_SNAPPY } from "@/lib/animation"
+import { heroLayout } from "@/lib/heroLayout"
+import { useSoundEffect } from "@/lib/hooks/useSoundEffect"
+import { usePrefersReducedMotion } from "@/hooks/useReducedMotion"
+
+const { bottom, left, rotate, z } = heroLayout.camera
 
 export default function CamObject() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  const playShutter = async () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0
-      try { await audioRef.current.play() } catch {}
-    }
-  }
+  const playShutter = useSoundEffect("/sounds/camera-click.mp3")
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, [0, 500], [0, -30])
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1.2, ...SPRING_SNAPPY }}
       style={{
         position: "absolute",
-        bottom: "0%",
-        left: "20%",
-        zIndex: 6,
+        bottom,
+        left,
+        zIndex: z,
+        y: prefersReducedMotion ? 0 : parallaxY,
       }}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.2, ...SPRING_SNAPPY }}
         style={{
-          rotate: "-8deg",
+          rotate: `${rotate}deg`,
           width: "150px",
-          animation: "float3 8s ease-in-out infinite",
+          animation: prefersReducedMotion ? "none" : "float3 8s ease-in-out infinite",
+          filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.12)) saturate(0.92) brightness(0.97) blur(0.4px)",
         }}
       >
         <motion.div
           onMouseEnter={playShutter}
-          whileHover={{ x: 8, y: -6, rotate: -90, scale: 1.06 }}
+          whileHover={prefersReducedMotion ? { opacity: 0.85 } : { x: 8, y: -6, rotate: -90, scale: 1.06 }}
           style={{
             pointerEvents: "auto",
-            cursor: "none",
           }}
         >
-          <audio ref={audioRef} src="/sounds/camera-click.mp3" preload="auto" />
           <Image
             src="/images/cam.png"
             alt="Nikon Coolpix"
@@ -51,7 +51,7 @@ export default function CamObject() {
             style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
           />
         </motion.div>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }

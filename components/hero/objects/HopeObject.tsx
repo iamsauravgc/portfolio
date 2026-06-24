@@ -1,45 +1,46 @@
 "use client"
 
-import { useRef } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
+import { heroLayout } from "@/lib/heroLayout"
+import { useSoundEffect } from "@/lib/hooks/useSoundEffect"
+import { usePrefersReducedMotion } from "@/hooks/useReducedMotion"
+
+const { top, left, rotate, z } = heroLayout.hope
 
 export default function HopeObject() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  const playSound = async () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0
-      try { await audioRef.current.play() } catch {}
-    }
-  }
+  const playSound = useSoundEffect("/sounds/paper-crinkle.mp3")
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, [0, 500], [0, -50])
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1.4, duration: 0.5, ease: "easeOut" }}
       style={{
         position: "absolute",
-        top: "60%",
-        left: "8%",
+        top,
+        left,
+        zIndex: z,
+        y: prefersReducedMotion ? 0 : parallaxY,
       }}
     >
-      <audio ref={audioRef} src="/sounds/paper-crinkle.mp3" preload="auto" />
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.4, duration: 0.5, ease: "easeOut" }}
         style={{
-          rotate: "-10deg",
+          rotate: `${rotate}deg`,
           width: "170px",
-          animation: "float2 9s ease-in-out infinite",
+          animation: prefersReducedMotion ? "none" : "float2 9s ease-in-out infinite",
+          filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.12)) saturate(0.92) brightness(0.97) blur(0.4px)",
         }}
       >
         <motion.div
           onMouseEnter={playSound}
-          whileHover={{ scale: 1.25, y: 10, rotate: 0, rotateX: -4 }}
+          whileHover={prefersReducedMotion ? { opacity: 0.85 } : { scale: 1.25, y: 10, rotate: 0, rotateX: -4 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
           style={{
             pointerEvents: "auto",
-            cursor: "none",
           }}
         >
           <Image
@@ -50,7 +51,7 @@ export default function HopeObject() {
             style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
           />
         </motion.div>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }

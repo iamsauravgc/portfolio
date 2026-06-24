@@ -1,60 +1,64 @@
 "use client"
 
-import { useRef } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import { SPRING_BOUNCY } from "@/lib/animation"
+import { heroLayout } from "@/lib/heroLayout"
+import { useSoundEffect } from "@/lib/hooks/useSoundEffect"
+import { usePrefersReducedMotion } from "@/hooks/useReducedMotion"
+
+const { top, right, rotate, z } = heroLayout.laptop
 
 export default function LaptopObject() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  const playSound = async () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0
-      try { await audioRef.current.play() } catch {}
-    }
-  }
+  const playSound = useSoundEffect("/sounds/windows.mp3")
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, [0, 500], [0, -60])
 
   return (
     <motion.div
-      className="floating-object"
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1.6, ...SPRING_BOUNCY }}
       style={{
         position: "absolute",
-        top: "5%",
-        right: "6%",
-        rotate: "-6deg",
-        width: "280px",
-        animation: "float1 13s ease-in-out infinite",
-        zIndex: 6,
-        pointerEvents: "auto",
-        cursor: "none",
+        top,
+        right,
+        zIndex: z,
+        y: prefersReducedMotion ? 0 : parallaxY,
       }}
     >
-      <audio ref={audioRef} src="/sounds/windows.mp3" preload="auto" />
       <motion.div
-        onMouseEnter={playSound}
-        whileHover={{
-          filter: [
-            "brightness(0.3)",
-            "brightness(0.7)",
-            "brightness(0.35)",
-            "brightness(1.15) drop-shadow(0 0 30px rgba(255,220,160,0.7)) drop-shadow(0 0 60px rgba(255,200,120,0.35))",
-          ],
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.6, ...SPRING_BOUNCY }}
+        style={{
+          rotate: `${rotate}deg`,
+          width: "280px",
+          animation: prefersReducedMotion ? "none" : "float1 13s ease-in-out infinite",
+          filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.12)) saturate(1.03) brightness(1.02)",
+          pointerEvents: "auto",
         }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        initial={{ filter: "brightness(0.3)" }}
-        style={{ lineHeight: 0 }}
       >
-        <Image
-          src="/images/laptop.png"
-          alt="Sticker laptop"
-          width={280}
-          height={210}
-          style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
-        />
+        <motion.div
+          onMouseEnter={playSound}
+          whileHover={prefersReducedMotion ? { opacity: 0.85 } : {
+            filter: [
+              "brightness(0.3)",
+              "brightness(0.7)",
+              "brightness(0.35)",
+              "brightness(1.15) drop-shadow(0 0 30px rgba(255,220,160,0.7)) drop-shadow(0 0 60px rgba(255,200,120,0.35))",
+            ],
+          }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ filter: "brightness(0.3)" }}
+          style={{ lineHeight: 0 }}
+        >
+          <Image
+            src="/images/laptop.png"
+            alt="Sticker laptop"
+            width={805}
+            height={618}
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
   )

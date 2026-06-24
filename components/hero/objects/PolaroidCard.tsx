@@ -1,46 +1,45 @@
 "use client"
 
-import { useRef } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import { SPRING_BOUNCY } from "@/lib/animation"
+import { heroLayout } from "@/lib/heroLayout"
+import { useSoundEffect } from "@/lib/hooks/useSoundEffect"
+import { usePrefersReducedMotion } from "@/hooks/useReducedMotion"
+
+const { bottom, right, rotate, z } = heroLayout.polaroid
 
 export default function PolaroidCard() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  const playSound = async () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0
-      try { await audioRef.current.play() } catch {}
-    }
-  }
+  const playSound = useSoundEffect("/sounds/eject.mp3")
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, [0, 500], [0, -70])
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.85, rotate: 4 }}
-      animate={{ opacity: 1, scale: 1, rotate: 4 }}
-      transition={{ delay: 2.0, ...SPRING_BOUNCY }}
       style={{
         position: "absolute",
-        bottom: "6%",
-        right: "6%",
-        width: "220px",
-        zIndex: 5,
-        animation: "float4 12s ease-in-out infinite",
-        filter: "drop-shadow(0 12px 40px rgba(26,24,20,0.25))",
-        pointerEvents: "auto",
-        cursor: "none",
+        bottom,
+        right,
+        zIndex: z,
+        y: prefersReducedMotion ? 0 : parallaxY,
       }}
     >
-      <audio ref={audioRef} src="/sounds/eject.mp3" preload="auto" />
-      <div
-        onMouseEnter={playSound}
-        style={{ position: "relative", lineHeight: 0 }}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85, rotate: 4 }}
+        animate={{ opacity: 1, scale: 1, rotate: 4 }}
+        transition={{ delay: 2.0, ...SPRING_BOUNCY }}
+        style={{
+          rotate: `${rotate}deg`,
+          width: "220px",
+          animation: prefersReducedMotion ? "none" : "float4 12s ease-in-out infinite",
+          filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.12)) saturate(0.97) brightness(0.99)",
+          pointerEvents: "auto",
+        }}
       >
-        <motion.div
-          initial={{ filter: "brightness(0.45) saturate(0.3) contrast(0.8)" }}
-          whileHover={{ filter: "brightness(1) saturate(1) contrast(1)" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+        <div
+          onMouseEnter={playSound}
+          style={{ position: "relative", lineHeight: 0 }}
         >
           <Image
             src="/images/polaroid.png"
@@ -50,19 +49,19 @@ export default function PolaroidCard() {
             style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
             priority
           />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: [0.85, 0] }}
-          transition={{ duration: 0.35 }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "#fff",
-            pointerEvents: "none",
-          }}
-        />
-      </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileHover={prefersReducedMotion ? { opacity: 0.85 } : { opacity: [0.85, 0] }}
+            transition={{ duration: 0.35 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "#fff",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
+      </motion.div>
     </motion.div>
   )
 }

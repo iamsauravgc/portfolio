@@ -33,6 +33,7 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollY } = useScroll()
   const scrollOpacity = useTransform(scrollY, [0, 120], [1, 0])
+  const scrollScale = useTransform(scrollY, [0, 200], [1, 0.96])
 
   return (
     <section
@@ -73,7 +74,9 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -55%)",
+            x: "-50%",
+            y: "-35%",
+            scale: scrollScale,
             zIndex: 10,
             maxWidth: "420px",
             width: "calc(100% - 64px)",
@@ -124,7 +127,7 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
               fontSize: "clamp(14px, 1.5vw, 16px)",
               color: "var(--color-text-muted)",
               margin: 0,
-              letterSpacing: "0.04em",
+              letterSpacing: "0.03em",
             }}
           >
             student · developer · maker
@@ -158,6 +161,17 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
           >
             ↓ scroll
           </span>
+          <motion.span
+            style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: "13px",
+              color: "var(--color-text-primary)",
+              opacity: 0.8,
+              animation: "blink 1.2s step-end infinite",
+            }}
+          >
+            _
+          </motion.span>
         </motion.div>
       )}
     </section>

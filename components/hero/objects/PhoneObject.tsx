@@ -50,7 +50,7 @@ export default function PhoneObject() {
             src="/images/nothing.png"
             alt="Nothing Phone"
             width={190}
-            height={380}
+            height={276}
             style={{ width: "100%", height: "auto", objectFit: "contain" }}
             priority
           />

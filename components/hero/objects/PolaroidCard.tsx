@@ -49,7 +49,7 @@ export default function PolaroidCard() {
             src="/images/polaroid.png"
             alt="Polaroid"
             width={220}
-            height={280}
+            height={293}
             style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
             priority
           />

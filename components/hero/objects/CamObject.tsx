@@ -51,7 +51,7 @@ export default function CamObject() {
             src="/images/cam.png"
             alt="Nikon Coolpix"
             width={150}
-            height={190}
+            height={225}
             style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
           />
         </motion.div>

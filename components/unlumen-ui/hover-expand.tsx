@@ -122,7 +122,7 @@ export function HoverExpand({
                       className="text-base shrink-0 opacity-40"
                       style={{ fontFamily: "var(--font-accent)" }}
                       animate={{
-                        color: isActive ? "#ffffff" : "currentColor",
+                        color: isActive ? "#ffffff" : "#2B2521",
                         opacity: isActive ? 0.5 : 0.4,
                       }}
                       transition={{ duration: 0.2 }}
@@ -134,7 +134,7 @@ export function HoverExpand({
                       className="font-semibold tracking-tight"
                       style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
                       animate={{
-                        color: isActive ? "#ffffff" : "currentColor",
+                        color: isActive ? "#ffffff" : "#2B2521",
                       }}
                       transition={{ duration: 0.2 }}
                     >
@@ -147,7 +147,7 @@ export function HoverExpand({
                         animate={{
                           color: isActive
                             ? "rgba(255,255,255,0.55)"
-                            : "currentColor",
+                            : "#2B2521",
                           opacity: isActive ? 1 : 0.45,
                         }}
                         transition={{ duration: 0.2 }}

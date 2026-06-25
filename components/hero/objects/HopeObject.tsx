@@ -51,7 +51,7 @@ export default function HopeObject() {
             src="/images/hope.png"
             alt="Hope"
             width={170}
-            height={128}
+            height={120}
             style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
           />
         </motion.div>

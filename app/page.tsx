@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 
 import Cursor from "@/components/Cursor"
 import Loader from "@/components/Loader"
+import MobileCaution from "@/components/MobileCaution"
 import ScrollProgress from "@/components/ui/scroll-progress"
 
 const HeroSection = dynamic(() => import("@/components/hero/HeroSection"), { ssr: false })
@@ -28,6 +29,7 @@ export default function Home() {
           transition: "opacity 0.6s ease-out",
         }}
       >
+        <MobileCaution />
         <main>
           <HeroSection loaderDone={loaderDone} />
           <WhoAmI />

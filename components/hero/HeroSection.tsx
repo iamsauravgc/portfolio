@@ -4,6 +4,7 @@ import { useRef } from "react"
 import dynamic from "next/dynamic"
 import { motion, useTransform, type Variants } from "framer-motion"
 import { useScrollY } from "@/lib/scroll-context"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 const PhoneObject = dynamic(() => import("@/components/hero/objects/PhoneObject"), { ssr: false })
 const VinylPlayer = dynamic(() => import("@/components/hero/objects/VinylPlayer").then((m) => ({ default: m.VinylPlayer })), { ssr: false })
@@ -35,6 +36,7 @@ const lineVariants: Variants = {
 export default function HeroSection({ loaderDone }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const scrollY = useScrollY()
+  const isMobile = useIsMobile()
   const scrollOpacity = useTransform(scrollY, [0, 120], [1, 0])
   const scrollScale = useTransform(scrollY, [0, 200], [1, 0.96])
   const scrollYOffset = useTransform(scrollY, [0, 300], [0, 60])
@@ -59,12 +61,12 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
     >
       {loaderDone && (
         <div className="hero-objects-wrapper">
-          <PhoneObject />
-          <VinylPlayer />
-          <LaptopObject />
-          <PolaroidCard />
-          <CamObject />
-          <HopeObject />
+          <PhoneObject isMobile={isMobile} />
+          <VinylPlayer isMobile={isMobile} />
+          <LaptopObject isMobile={isMobile} />
+          <PolaroidCard isMobile={isMobile} />
+          <CamObject isMobile={isMobile} />
+          <HopeObject isMobile={isMobile} />
         </div>
       )}
 
@@ -79,7 +81,7 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
             left: "50%",
             x: "-50%",
             y: "-35%",
-            scale: scrollScale,
+            scale: isMobile ? 1 : scrollScale,
             zIndex: 10,
             maxWidth: "420px",
             width: "calc(100% - 64px)",
@@ -98,7 +100,7 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
               color: "#B5654A",
               margin: 0,
               lineHeight: 1.2,
-              y: scrollYOffset,
+              y: isMobile ? 0 : scrollYOffset,
             }}
           >
             hey there
@@ -114,8 +116,8 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
               lineHeight: 1.5,
               margin: 0,
               letterSpacing: "0.01em",
-              filter: `blur(${scrollBlur}px)`,
-              y: scrollYOffset,
+              filter: isMobile ? "none" : `blur(${scrollBlur}px)`,
+              y: isMobile ? 0 : scrollYOffset,
             }}
           >
             Hi, I&apos;m Saurav — I turn ideas into things you click.
@@ -130,8 +132,8 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
               color: "var(--color-text-muted)",
               margin: 0,
               letterSpacing: "0.03em",
-              filter: `blur(${scrollBlur}px)`,
-              y: scrollYOffset,
+              filter: isMobile ? "none" : `blur(${scrollBlur}px)`,
+              y: isMobile ? 0 : scrollYOffset,
             }}
           >
             student · developer · maker

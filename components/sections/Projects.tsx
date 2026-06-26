@@ -66,11 +66,13 @@ export default function Projects() {
             },
           }}
           style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.3rem, 2.4vw, 1.8rem)",
-            fontWeight: 500,
+            fontFamily: "var(--font-mono)",
+            fontSize: "clamp(13px, 1.4vw, 16px)",
+            textTransform: "uppercase",
+            letterSpacing: "0.15em",
             color: "var(--color-accent)",
-            letterSpacing: "-0.02em",
+            fontWeight: 500,
+            display: "block",
           }}
         >
           Things I have built

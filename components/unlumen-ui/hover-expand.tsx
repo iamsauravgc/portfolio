@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export interface HoverExpandItem {
   label: string;
@@ -21,6 +22,59 @@ export interface HoverExpandProps {
 
 export function HoverExpand({ items, rowHeight = 110, className }: HoverExpandProps) {
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div className={cn("w-full", className)} style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+        {items.map((item, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <img
+              src={item.image}
+              alt={item.imageAlt ?? item.label}
+              loading="lazy"
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+            <h3
+              style={{
+                fontWeight: 500,
+                fontSize: "clamp(1.1rem, 4vw, 1.4rem)",
+                letterSpacing: "-0.02em",
+                color: "var(--color-text-primary)",
+                margin: 0,
+              }}
+            >
+              {item.label}
+            </h3>
+            {item.tags && item.tags.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  fontSize: "clamp(12px, 3vw, 13px)",
+                  color: "var(--color-text-secondary)",
+                }}
+              >
+                {item.tags.map((tag, idx) => (
+                  <span key={idx} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    {idx > 0 && <span style={{ opacity: 0.5, color: "var(--color-text-secondary)" }}>●</span>}
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div

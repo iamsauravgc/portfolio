@@ -8,15 +8,21 @@ import { heroLayout } from "@/lib/heroLayout"
 import { useSoundEffect } from "@/lib/hooks/useSoundEffect"
 import { usePrefersReducedMotion } from "@/hooks/useReducedMotion"
 
-const { top, right, rotate, z } = heroLayout.laptop
+interface LaptopObjectProps {
+  isMobile?: boolean
+}
 
-export default function LaptopObject() {
+export default function LaptopObject({ isMobile }: LaptopObjectProps) {
   const playSound = useSoundEffect("/sounds/windows.mp3")
   const prefersReducedMotion = usePrefersReducedMotion()
   const scrollY = useScrollY()
   const parallaxY = useTransform(scrollY, [0, 500], [0, -60])
   const scrollOpacity = useTransform(scrollY, [0, 400], [1, 0.25])
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.82])
+  const layout = isMobile ? heroLayout.mobile.laptop : heroLayout.laptop
+  const { top, right, rotate, z, width } = layout
+  const disableParallax = prefersReducedMotion || isMobile
+  const disableEffects = prefersReducedMotion
 
   return (
     <motion.div
@@ -25,9 +31,9 @@ export default function LaptopObject() {
         top,
         right,
         zIndex: z,
-        y: prefersReducedMotion ? 0 : parallaxY,
-        opacity: prefersReducedMotion ? 1 : scrollOpacity,
-        scale: prefersReducedMotion ? 1 : scrollScale,
+        y: disableParallax ? 0 : parallaxY,
+        opacity: disableParallax ? 1 : scrollOpacity,
+        scale: disableParallax ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -36,15 +42,15 @@ export default function LaptopObject() {
         transition={{ delay: 1.6, ...SPRING_BOUNCY }}
         style={{
           rotate: `${rotate}deg`,
-          width: "280px",
-          animation: prefersReducedMotion ? "none" : "float1 13s ease-in-out infinite",
+          width: `${width}px`,
+          animation: disableEffects ? "none" : "float1 13s ease-in-out infinite",
           filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.12)) saturate(1.03) brightness(1.02)",
           pointerEvents: "auto",
         }}
       >
         <motion.div
-          onMouseEnter={playSound}
-          whileHover={prefersReducedMotion ? { opacity: 0.85 } : {
+          onMouseEnter={disableEffects ? undefined : playSound}
+          whileHover={disableEffects ? undefined : {
             filter: [
               "brightness(0.3)",
               "brightness(0.7)",
@@ -59,8 +65,8 @@ export default function LaptopObject() {
           <Image
             src="/images/laptop.png"
             alt="Sticker laptop"
-            width={805}
-            height={618}
+            width={parseInt(width.toString())}
+            height={Math.round(width * 618 / 805)}
             style={{ width: "100%", height: "auto", display: "block" }}
           />
         </motion.div>

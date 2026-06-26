@@ -44,13 +44,12 @@ export function SectionTransition({ children, pin = false, className, style }: S
       scrollTrigger: {
         trigger: el,
         start: "top bottom",
-        end: "bottom top",
+        end: "bottom 25%",
         scrub: 1.5,
       },
     })
 
     tl.fromTo(inner, { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0)
-    tl.to(inner, { opacity: 0, y: -80, duration: 0.35, ease: "power2.in" }, 0.65)
 
     return () => {
       tl.scrollTrigger?.kill()

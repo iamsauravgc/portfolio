@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
 import { SectionTransition } from "@/components/ui/section-transition"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 const IconCloud = dynamic(() => import("@/components/ui/icon-cloud").then((m) => ({ default: m.IconCloud })), { ssr: false })
 
@@ -28,6 +29,7 @@ const slugs = [
 export default function WhoAmI() {
   const images = slugs.map((slug) => `/images/tech/${slug}.svg`)
   const [titleIndex, setTitleIndex] = useState(0)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -135,9 +137,9 @@ export default function WhoAmI() {
                 transition: { duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] },
               },
             }}
-            style={{ flex: 1, display: "flex", justifyContent: "center", cursor: "grab" }}
+            style={{ flex: 1, display: "flex", justifyContent: "center", width: "100%", cursor: "grab" }}
           >
-            <IconCloud images={images} size={520} iconSize={64} />
+            <IconCloud images={images} size={isMobile ? 280 : 520} iconSize={isMobile ? 40 : 64} />
           </motion.div>
         </div>
 

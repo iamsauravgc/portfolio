@@ -6,11 +6,13 @@ import { useScrollY } from "@/lib/scroll-context";
 import { heroLayout } from "@/lib/heroLayout";
 import { usePrefersReducedMotion } from "@/hooks/useReducedMotion";
 
-const { top, left, rotate, z } = heroLayout.vinyl
-
 const BLONDE_COVER = "/images/blonde.jpeg"
 
-export function VinylPlayer() {
+interface VinylPlayerProps {
+  isMobile?: boolean
+}
+
+export function VinylPlayer({ isMobile }: VinylPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -19,6 +21,10 @@ export function VinylPlayer() {
   const scrollRotate = useTransform(scrollY, [0, 500], [0, 15]);
   const scrollOpacity = useTransform(scrollY, [0, 400], [1, 0.2]);
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.78]);
+  const layout = isMobile ? heroLayout.mobile.vinyl : heroLayout.vinyl
+  const { top, left, rotate, z, width } = layout
+  const disableParallax = prefersReducedMotion || isMobile
+  const disableEffects = prefersReducedMotion
 
   const audioLoadedRef = useRef(false);
 
@@ -55,12 +61,12 @@ export function VinylPlayer() {
         position: "absolute",
         top,
         left,
-        width: 370,
-        height: 370,
+        width: width,
+        height: width,
         zIndex: z,
-        y: prefersReducedMotion ? 0 : parallaxY,
-        opacity: prefersReducedMotion ? 1 : scrollOpacity,
-        scale: prefersReducedMotion ? 1 : scrollScale,
+        y: disableParallax ? 0 : parallaxY,
+        opacity: disableParallax ? 1 : scrollOpacity,
+        scale: disableParallax ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -75,7 +81,7 @@ export function VinylPlayer() {
           justifyContent: "center",
           rotate: `${rotate}deg`,
           filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.12)) saturate(0.97) brightness(0.99)",
-          animation: prefersReducedMotion ? "none" : "float2 11s ease-in-out infinite",
+          animation: disableEffects ? "none" : "float2 11s ease-in-out infinite",
         }}
       >
         {/* Tonearm */}
@@ -131,26 +137,26 @@ export function VinylPlayer() {
         {/* Vinyl disc */}
         <div
           className="relative"
-          style={{ width: 370, height: 370 }}
+          style={{ width: "100%", height: "100%" }}
         >
           <motion.div
             style={{
               width: "100%",
               height: "100%",
-              rotate: prefersReducedMotion ? 0 : scrollRotate,
+              rotate: disableParallax ? 0 : scrollRotate,
             }}
           >
             <div
               className="absolute inset-0"
               style={{
-                animation: !prefersReducedMotion && isPlaying ? "spin 3s linear infinite" : "none",
+                animation: !disableEffects && isPlaying ? "spin 3s linear infinite" : "none",
               }}
             >
               <img
                 src="/images/vinyl.png"
                 alt="Vinyl record"
-                width={370}
-                height={370}
+                width={width}
+                height={width}
                 loading="lazy"
                 className="w-full h-full object-contain"
                 draggable={false}

@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useTransform } from "framer-motion"
+import { useScrollY } from "@/lib/scroll-context"
 import Image from "next/image"
 import { heroLayout } from "@/lib/heroLayout"
 import { useSoundEffect } from "@/lib/hooks/useSoundEffect"
@@ -11,7 +12,7 @@ const { top, left, rotate, z } = heroLayout.hope
 export default function HopeObject() {
   const playSound = useSoundEffect("/sounds/paper-crinkle.mp3")
   const prefersReducedMotion = usePrefersReducedMotion()
-  const { scrollY } = useScroll()
+  const scrollY = useScrollY()
   const parallaxY = useTransform(scrollY, [0, 500], [0, -50])
   const scrollOpacity = useTransform(scrollY, [0, 400], [1, 0.15])
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.78])

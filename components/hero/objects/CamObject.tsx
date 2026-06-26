@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useTransform } from "framer-motion"
+import { useScrollY } from "@/lib/scroll-context"
 import Image from "next/image"
 import { SPRING_SNAPPY } from "@/lib/animation"
 import { heroLayout } from "@/lib/heroLayout"
@@ -12,7 +13,7 @@ const { bottom, left, rotate, z } = heroLayout.camera
 export default function CamObject() {
   const playShutter = useSoundEffect("/sounds/camera-click.mp3")
   const prefersReducedMotion = usePrefersReducedMotion()
-  const { scrollY } = useScroll()
+  const scrollY = useScrollY()
   const parallaxY = useTransform(scrollY, [0, 500], [0, -30])
   const scrollOpacity = useTransform(scrollY, [0, 400], [1, 0.2])
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.8])

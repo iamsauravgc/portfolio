@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useRef, useCallback } from "react";
+import { motion, useTransform } from "framer-motion";
+import { useScrollY } from "@/lib/scroll-context";
 import { heroLayout } from "@/lib/heroLayout";
 import { usePrefersReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -13,37 +14,40 @@ export function VinylPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { scrollY } = useScroll();
+  const scrollY = useScrollY();
   const parallaxY = useTransform(scrollY, [0, 500], [0, -80]);
   const scrollRotate = useTransform(scrollY, [0, 500], [0, 15]);
   const scrollOpacity = useTransform(scrollY, [0, 400], [1, 0.2]);
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.78]);
 
-  useEffect(() => {
-    const audio = new Audio("/sounds/solo.mp3");
-    audio.preload = "auto";
-    audioRef.current = audio;
-    audio.addEventListener("ended", () => setIsPlaying(false));
-    return () => {
-      audio.pause();
-      audio.src = "";
-    };
-  }, []);
+  const audioLoadedRef = useRef(false);
 
   const togglePlay = useCallback(async () => {
+    if (!audioRef.current) {
+      const audio = new Audio("/sounds/solo.mp3");
+      audio.preload = "none";
+      audioRef.current = audio;
+      audio.addEventListener("ended", () => setIsPlaying(false));
+    }
     const audio = audioRef.current;
-    if (!audio) return;
-    if (isPlaying) {
+    if (!audioLoadedRef.current) {
+      audio.load();
+      audioLoadedRef.current = true;
+    }
+    if (!audio.paused) {
       audio.pause();
       setIsPlaying(false);
     } else {
       try {
         await audio.play();
         setIsPlaying(true);
-      } catch (_) {
+      } catch (err) {
+        if (err instanceof Error && err.name !== "AbortError") {
+          console.warn("Audio playback failed:", err.message);
+        }
       }
     }
-  }, [isPlaying]);
+  }, []);
 
   return (
     <motion.div
@@ -139,13 +143,15 @@ export function VinylPlayer() {
             <div
               className="absolute inset-0"
               style={{
-                animation: prefersReducedMotion ? "none" : "spin 3s linear infinite",
-                ...(prefersReducedMotion ? {} : { animationPlayState: isPlaying ? "running" : "paused" }),
+                animation: !prefersReducedMotion && isPlaying ? "spin 3s linear infinite" : "none",
               }}
             >
               <img
                 src="/images/vinyl.png"
                 alt="Vinyl record"
+                width={370}
+                height={370}
+                loading="lazy"
                 className="w-full h-full object-contain"
                 draggable={false}
               />
@@ -165,6 +171,9 @@ export function VinylPlayer() {
                   <img
                     src={BLONDE_COVER}
                     alt="Frank Ocean Blonde"
+                    width={104}
+                    height={104}
+                    loading="lazy"
                     style={{
                       width: "100%",
                       height: "100%",

@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useTransform } from "framer-motion"
+import { useScrollY } from "@/lib/scroll-context"
 import Image from "next/image"
 import { SPRING_BOUNCY } from "@/lib/animation"
 import { heroLayout } from "@/lib/heroLayout"
@@ -12,7 +13,7 @@ const { top, right, rotate, z } = heroLayout.laptop
 export default function LaptopObject() {
   const playSound = useSoundEffect("/sounds/windows.mp3")
   const prefersReducedMotion = usePrefersReducedMotion()
-  const { scrollY } = useScroll()
+  const scrollY = useScrollY()
   const parallaxY = useTransform(scrollY, [0, 500], [0, -60])
   const scrollOpacity = useTransform(scrollY, [0, 400], [1, 0.25])
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.82])

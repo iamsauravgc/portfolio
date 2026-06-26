@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
 import { SectionTransition } from "@/components/ui/section-transition"
-import { IconCloud } from "@/components/ui/icon-cloud"
+
+const IconCloud = dynamic(() => import("@/components/ui/icon-cloud").then((m) => ({ default: m.IconCloud })), { ssr: false })
 
 const titles = [
   "CS/AI student,",

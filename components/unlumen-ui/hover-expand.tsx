@@ -39,7 +39,7 @@ export function HoverExpand({ items, rowHeight = 110, className }: HoverExpandPr
               style={{ height: rowHeight }}
               onMouseEnter={() => setActiveIndex(i)}
               onMouseLeave={() => setActiveIndex(null)}
-              onClick={() => item.link && window.open(item.link, "_blank")}
+              onClick={() => item.link && window.open(item.link, "_blank", "noopener,noreferrer")}
             >
               <div style={{ display: "flex", height: "100%", padding: "0 8px" }}>
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 0 }}>
@@ -133,16 +133,20 @@ function FloatingImage({ item, top }: { item: HoverExpandItem; top: number }) {
         right: "0px",
         top,
         width: panelWidth,
-        height: natural ? panelWidth * (natural.h / natural.w) : 240,
+        aspectRatio: natural ? `${natural.w}/${natural.h}` : "420/240",
       }}
     >
       <img
         src={item.image}
         alt={item.imageAlt ?? ""}
+        width={420}
+        height={240}
+        loading="lazy"
         onLoad={(e) => {
           const img = e.currentTarget;
           setNatural({ w: img.naturalWidth, h: img.naturalHeight });
         }}
+        onError={() => setNatural(null)}
         className="w-full h-full object-contain rounded-md shadow-2xl bg-white"
       />
     </motion.div>

@@ -1,28 +1,30 @@
 "use client"
 
-import { useRef, useEffect, useCallback } from "react"
+import { useRef, useCallback } from "react"
 
 export function useSoundEffect(src: string) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  useEffect(() => {
-    const audio = new Audio(src)
-    audio.preload = "auto"
-    audioRef.current = audio
-    return () => {
-      audio.pause()
-      audio.src = ""
-    }
-  }, [src])
+  const loadedRef = useRef(false)
 
   const play = useCallback(async () => {
+    if (src.includes("..") || !src.startsWith("/sounds/")) {
+      return
+    }
+    if (!audioRef.current) {
+      const audio = new Audio(src)
+      audio.preload = "none"
+      audioRef.current = audio
+    }
     const audio = audioRef.current
-    if (!audio) return
+    if (!loadedRef.current) {
+      audio.load()
+      loadedRef.current = true
+    }
     audio.currentTime = 0
     try {
       await audio.play()
     } catch {}
-  }, [])
+  }, [src])
 
   return play
 }

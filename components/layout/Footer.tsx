@@ -105,7 +105,7 @@ export default function Footer() {
             }}
           >
             <span style={{ fontSize: "24px", lineHeight: 1, marginRight: "4px", display: "inline-block" }}>🌊</span>
-            &ldquo;I'm sure we're taller in another dimension.&rdquo;
+            &ldquo;I&apos;m sure we&apos;re taller in another dimension.&rdquo;
           </p>
         </div>
       </div>

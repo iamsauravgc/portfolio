@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useMemo } from "react"
 import { renderToString } from "react-dom/server"
 
 interface Icon {
@@ -25,7 +25,6 @@ function easeOutCubic(t: number): number {
 
 export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconCloudProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [iconPositions, setIconPositions] = useState<Icon[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 })
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
@@ -60,8 +59,14 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
         if (images) {
           // Handle image URLs directly
           const img = new Image()
-          img.crossOrigin = "anonymous"
-          img.src = items[index] as string
+          const url = items[index] as string
+          try {
+            const urlObj = new URL(url, window.location.origin)
+            if (urlObj.origin !== window.location.origin) {
+              img.crossOrigin = "anonymous"
+            }
+          } catch {}
+          img.src = url
           img.onload = () => {
             offCtx.clearRect(0, 0, offscreen.width, offscreen.height)
 
@@ -70,8 +75,11 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
 
             imagesLoadedRef.current[index] = true
           }
+          img.onerror = () => {
+            imagesLoadedRef.current[index] = true
+          }
         } else {
-          // Handle SVG icons
+          // Handle SVG icons (only from trusted React elements — no user input)
           offCtx.scale(0.4, 0.4)
           const svgString = renderToString(item as React.ReactElement)
           const img = new Image()
@@ -79,6 +87,9 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
           img.onload = () => {
             offCtx.clearRect(0, 0, offscreen.width, offscreen.height)
             offCtx.drawImage(img, 0, 0)
+            imagesLoadedRef.current[index] = true
+          }
+          img.onerror = () => {
             imagesLoadedRef.current[index] = true
           }
         }
@@ -90,12 +101,11 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
   }, [icons, images])
 
   // Generate initial icon positions on a sphere
-  useEffect(() => {
+  const iconPositions = useMemo(() => {
     const items = icons ?? images ?? []
     const newIcons: Icon[] = []
     const numIcons = items.length || 20
 
-    // Fibonacci sphere parameters
     const offset = 2 / numIcons
     const increment = Math.PI * (3 - Math.sqrt(5))
 
@@ -116,7 +126,7 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
         id: i,
       })
     }
-    setIconPositions(newIcons)
+    return newIcons
   }, [icons, images])
 
   // Handle mouse events

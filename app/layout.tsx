@@ -3,6 +3,7 @@ import { JetBrains_Mono, Reenie_Beanie, Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 import Dot from "@/components/animata/background/dot"
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider"
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister"
 import "./globals.css"
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
@@ -11,6 +12,12 @@ const reenieBeanie = Reenie_Beanie({ subsets: ["latin"], weight: "400", variable
 const historiaSky = localFont({
   src: "../public/fonts/HistoriaSky.ttf",
   variable: "--font-signature",
+  weight: "400",
+  style: "normal",
+})
+const ndot55 = localFont({
+  src: "../public/fonts/Ndot55Caps-Regular.otf",
+  variable: "--font-accent",
   weight: "400",
   style: "normal",
 })
@@ -36,8 +43,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${jetbrainsMono.variable} ${geistMono.variable} ${reenieBeanie.variable} ${historiaSky.variable}`}>
+    <html lang="en" className={`${jetbrainsMono.variable} ${geistMono.variable} ${reenieBeanie.variable} ${historiaSky.variable} ${ndot55.variable}`}>
       <body>
+        <ServiceWorkerRegister />
         <SmoothScrollProvider>
           <Dot color="rgba(0,0,0,0.12)" size={1.2} spacing={10} style={{ backgroundColor: "var(--color-bg)", minHeight: "100vh" }}>
             {children}

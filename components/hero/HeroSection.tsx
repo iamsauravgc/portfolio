@@ -1,13 +1,16 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useScroll, useTransform, type Variants } from "framer-motion"
-import PhoneObject from "@/components/hero/objects/PhoneObject"
-import { VinylPlayer } from "@/components/hero/objects/VinylPlayer"
-import LaptopObject from "@/components/hero/objects/LaptopObject"
-import PolaroidCard from "@/components/hero/objects/PolaroidCard"
-import CamObject from "@/components/hero/objects/CamObject"
-import HopeObject from "@/components/hero/objects/HopeObject"
+import dynamic from "next/dynamic"
+import { motion, useTransform, type Variants } from "framer-motion"
+import { useScrollY } from "@/lib/scroll-context"
+
+const PhoneObject = dynamic(() => import("@/components/hero/objects/PhoneObject"), { ssr: false })
+const VinylPlayer = dynamic(() => import("@/components/hero/objects/VinylPlayer").then((m) => ({ default: m.VinylPlayer })), { ssr: false })
+const LaptopObject = dynamic(() => import("@/components/hero/objects/LaptopObject"), { ssr: false })
+const PolaroidCard = dynamic(() => import("@/components/hero/objects/PolaroidCard"), { ssr: false })
+const CamObject = dynamic(() => import("@/components/hero/objects/CamObject"), { ssr: false })
+const HopeObject = dynamic(() => import("@/components/hero/objects/HopeObject"), { ssr: false })
 
 interface HeroSectionProps {
   loaderDone: boolean
@@ -31,7 +34,7 @@ const lineVariants: Variants = {
 
 export default function HeroSection({ loaderDone }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
-  const { scrollY } = useScroll()
+  const scrollY = useScrollY()
   const scrollOpacity = useTransform(scrollY, [0, 120], [1, 0])
   const scrollScale = useTransform(scrollY, [0, 200], [1, 0.96])
   const scrollYOffset = useTransform(scrollY, [0, 300], [0, 60])
@@ -85,7 +88,6 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
             alignItems: "center",
             textAlign: "center",
             gap: "20px",
-            pointerEvents: "none",
           }}
         >
           <motion.p

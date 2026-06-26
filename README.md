@@ -1,4 +1,4 @@
-# saurav-portfolio
+# portfolio
 
 Personal portfolio site for Saurav G.C. Built with Next.js, Framer Motion, GSAP, and Tailwind CSS.
 

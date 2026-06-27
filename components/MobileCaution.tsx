@@ -45,7 +45,7 @@ export default function MobileCaution() {
               style={{
                 fontFamily: "var(--font-body)",
                 fontSize: "clamp(13px, 3.5vw, 16px)",
-                color: "#2C1810",
+                color: "#170B05",
                 lineHeight: 1.4,
               }}
             >

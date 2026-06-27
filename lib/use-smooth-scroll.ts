@@ -21,17 +21,20 @@ export function useSmoothScroll() {
     const onScroll = () => { lastScroll = Date.now() }
     window.addEventListener("scroll", onScroll, { passive: true })
 
-    gsap.ticker.add((time) => {
+    let rafId: number
+    const raf = (time: number) => {
       if (Date.now() - lastScroll < 3000) {
-        lenis.raf(time * 1000)
+        lenis.raf(time)
       }
-    })
-    gsap.ticker.lagSmoothing(0)
+      rafId = requestAnimationFrame(raf)
+    }
+    rafId = requestAnimationFrame(raf)
 
     const refresh = () => ScrollTrigger.refresh()
     window.addEventListener("load", refresh)
 
     return () => {
+      cancelAnimationFrame(rafId)
       lenis.destroy()
       window.removeEventListener("load", refresh)
       window.removeEventListener("scroll", onScroll)

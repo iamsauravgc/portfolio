@@ -48,7 +48,8 @@ export default function CamObject({ isMobile }: CamObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects ? undefined : playShutter}
+          onMouseEnter={disableEffects || isMobile ? undefined : playShutter}
+          onClick={!disableEffects && isMobile ? playShutter : undefined}
           whileHover={disableEffects ? undefined : { x: 8, y: -6, rotate: -90, scale: 1.06 }}
           style={{
             pointerEvents: "auto",

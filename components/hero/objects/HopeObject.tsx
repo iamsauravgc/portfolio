@@ -47,7 +47,8 @@ export default function HopeObject({ isMobile }: HopeObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects ? undefined : playSound}
+          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
+          onClick={!disableEffects && isMobile ? playSound : undefined}
           whileHover={disableEffects ? undefined : { scale: 1.25, y: 10, rotate: 0, rotateX: -4 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
           style={{

@@ -16,6 +16,7 @@ export function VinylPlayer({ isMobile }: VinylPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioInitialized = useRef(false);
+  const pendingPlayRef = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const scrollY = useScrollY();
   const parallaxY = useTransform(scrollY, [0, 500], [0, -80]);
@@ -41,30 +42,38 @@ export function VinylPlayer({ isMobile }: VinylPlayerProps) {
         if (track?.previewUrl) {
           const audio = new Audio();
           audio.crossOrigin = "anonymous";
-          audio.preload = "none";
           audio.src = track.previewUrl;
           audio.addEventListener("ended", () => setIsPlaying(false));
           audioRef.current = audio;
+          if (pendingPlayRef.current) {
+            pendingPlayRef.current = false;
+            audio.play().then(() => setIsPlaying(true)).catch(() => {});
+          }
         }
       })
       .catch(() => {});
   };
 
-  const togglePlay = () => {
+  useEffect(() => {
     initAudio();
-    setIsPlaying(prev => {
-      const next = !prev;
-      const audio = audioRef.current;
-      if (!audio) return next;
-      if (next) {
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-      } else {
+  }, []);
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      if (isPlaying) {
         audio.pause();
         audio.currentTime = 0;
+        setIsPlaying(false);
+      } else {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        setIsPlaying(true);
       }
-      return next;
-    });
+    } else {
+      pendingPlayRef.current = !isPlaying;
+      setIsPlaying(prev => !prev);
+    }
   };
 
   return (

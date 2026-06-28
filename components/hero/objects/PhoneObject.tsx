@@ -49,7 +49,8 @@ export default function PhoneObject({ isMobile }: PhoneObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects ? undefined : playSound}
+          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
+          onClick={!disableEffects && isMobile ? playSound : undefined}
           whileHover={disableEffects ? undefined : { x: [0, -8, 8, -6, 6, -4, 4, 0], rotate: [0, -5, 5, -3, 3, 0] }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >

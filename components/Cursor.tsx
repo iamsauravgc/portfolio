@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
-import { useIsMobile } from "@/hooks/useIsMobile"
 
 type CursorVariant = "default" | "link" | "project" | "vinyl" | "listen"
 
@@ -15,10 +14,18 @@ const CURSOR_VARIANTS = {
 }
 
 export default function Cursor() {
-  const isMobile = useIsMobile()
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
   const [variant, setVariant] = useState<CursorVariant>("default")
   const [isVisible, setIsVisible] = useState(false)
   const variantRef = useRef<CursorVariant>("default")
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: none)")
+    const handler = (e: MediaQueryListEvent) => setIsTouchDevice(e.matches)
+    setIsTouchDevice(mq.matches)
+    mq.addEventListener("change", handler)
+    return () => mq.removeEventListener("change", handler)
+  }, [])
 
   const mouseX = useMotionValue(-100)
   const mouseY = useMotionValue(-100)
@@ -75,7 +82,7 @@ export default function Cursor() {
 
   const current = CURSOR_VARIANTS[variant]
 
-  if (isMobile) return null
+  if (isTouchDevice) return null
 
   return (
     <motion.div

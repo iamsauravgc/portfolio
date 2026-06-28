@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${jetbrainsMono.variable} ${geistMono.variable} ${reenieBeanie.variable} ${historiaSky.variable} ${ndot55.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${jetbrainsMono.variable} ${geistMono.variable} ${reenieBeanie.variable} ${historiaSky.variable} ${ndot55.variable}`}>
       <body>
         <link rel="preload" href="/images/vinyl.webp" as="image" />
         <link rel="preload" href="/images/blonde.webp" as="image" />

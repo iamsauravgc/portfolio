@@ -49,7 +49,8 @@ export default function PolaroidCard({ isMobile }: PolaroidCardProps) {
         }}
       >
         <div
-          onMouseEnter={disableEffects ? undefined : playSound}
+          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
+          onClick={!disableEffects && isMobile ? playSound : undefined}
           style={{ position: "relative", lineHeight: 0 }}
         >
           <Image

@@ -49,7 +49,8 @@ export default function LaptopObject({ isMobile }: LaptopObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects ? undefined : playSound}
+          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
+          onClick={!disableEffects && isMobile ? playSound : undefined}
           whileHover={disableEffects ? undefined : {
             filter: [
               "brightness(0.3)",

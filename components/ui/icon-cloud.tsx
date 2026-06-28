@@ -42,8 +42,6 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([])
   const imagesLoadedRef = useRef<boolean[]>([])
   const isVisibleRef = useRef(true)
-  const idlePausedRef = useRef(false)
-  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Create icon canvases once when icons/images change
   useEffect(() => {
@@ -218,30 +216,10 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
     setIsDragging(false)
   }
 
-  // Pause animation when off-screen; auto-pause after 2s of idle on initial load
+  // Pause animation when off-screen
   useEffect(() => {
     const el = canvasRef.current
     if (!el) return
-
-    const startIdleTimer = () => {
-      idlePausedRef.current = false
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
-      idleTimerRef.current = setTimeout(() => {
-        idlePausedRef.current = true
-      }, 2000)
-    }
-    startIdleTimer()
-
-    const onMouseEnter = () => {
-      idlePausedRef.current = false
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
-    }
-    const onMouseLeave = () => {
-      idlePausedRef.current = true
-    }
-
-    el.addEventListener("mouseenter", onMouseEnter)
-    el.addEventListener("mouseleave", onMouseLeave)
 
     const observer = new IntersectionObserver(
       ([entry]) => { isVisibleRef.current = entry.isIntersecting },
@@ -251,9 +229,6 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
 
     return () => {
       observer.disconnect()
-      el.removeEventListener("mouseenter", onMouseEnter)
-      el.removeEventListener("mouseleave", onMouseLeave)
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
     }
   }, [])
 
@@ -342,7 +317,7 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
 
           ctx.restore()
         })
-        if (isVisibleRef.current && !idlePausedRef.current) {
+        if (isVisibleRef.current) {
           animationFrameRef.current = requestAnimationFrame(animate)
         }
       }

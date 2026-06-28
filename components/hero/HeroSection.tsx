@@ -17,13 +17,6 @@ interface HeroSectionProps {
   loaderDone: boolean
 }
 
-const staggerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.3 },
-  },
-}
-
 const lineVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -69,77 +62,68 @@ export default function HeroSection({ loaderDone }: HeroSectionProps) {
         </div>
       )}
 
-      {loaderDone && (
-        <motion.div
-          variants={staggerVariants}
-          initial="hidden"
-          animate="visible"
+      <motion.div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          x: "-50%",
+          y: "-35%",
+          scale: isMobile ? 1 : scrollScale,
+          zIndex: 10,
+          maxWidth: "420px",
+          width: "calc(100% - 64px)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          gap: "20px",
+        }}
+      >
+        <motion.p
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            x: "-50%",
-            y: "-35%",
-            scale: isMobile ? 1 : scrollScale,
-            zIndex: 10,
-            maxWidth: "420px",
-            width: "calc(100% - 64px)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            gap: "20px",
+            fontFamily: "var(--font-handwritten)",
+            fontSize: "clamp(20px, 3vw, 26px)",
+            color: "#B5654A",
+            margin: 0,
+            lineHeight: 1.2,
+            y: isMobile ? 0 : scrollYOffset,
           }}
         >
-          <motion.p
-            variants={lineVariants}
-            style={{
-              fontFamily: "var(--font-handwritten)",
-              fontSize: "clamp(20px, 3vw, 26px)",
-              color: "#B5654A",
-              margin: 0,
-              lineHeight: 1.2,
-              y: isMobile ? 0 : scrollYOffset,
-            }}
-          >
-            hey there
-          </motion.p>
+          hey there
+        </motion.p>
 
-          <motion.p
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            style={{
-              fontFamily: "var(--font-body)",
-              fontWeight: 400,
-              fontSize: "clamp(18px, 2.5vw, 24px)",
-              color: "var(--color-text-primary)",
-              lineHeight: 1.5,
-              margin: 0,
-              letterSpacing: "0.01em",
-              filter: isMobile ? "none" : `blur(${scrollBlur}px)`,
-              y: isMobile ? 0 : scrollYOffset,
-            }}
-          >
-            Hi, I&apos;m Saurav — I turn ideas into things you click.
-          </motion.p>
+        <motion.p
+          style={{
+            fontFamily: "var(--font-body)",
+            fontWeight: 400,
+            fontSize: "clamp(18px, 2.5vw, 24px)",
+            color: "var(--color-text-primary)",
+            lineHeight: 1.5,
+            margin: 0,
+            letterSpacing: "0.01em",
+            filter: isMobile ? "none" : `blur(${scrollBlur}px)`,
+            y: isMobile ? 0 : scrollYOffset,
+          }}
+        >
+          Hi, I&apos;m Saurav — I turn ideas into things you click.
+        </motion.p>
 
-          <motion.p
-            variants={lineVariants}
-            style={{
-              fontFamily: "var(--font-body)",
-              fontWeight: 400,
-              fontSize: "clamp(14px, 1.5vw, 16px)",
-              color: "var(--color-text-muted)",
-              margin: 0,
-              letterSpacing: "0.03em",
-              filter: isMobile ? "none" : `blur(${scrollBlur}px)`,
-              y: isMobile ? 0 : scrollYOffset,
-            }}
-          >
-            student · developer · maker
-          </motion.p>
-        </motion.div>
-      )}
+        <motion.p
+          style={{
+            fontFamily: "var(--font-body)",
+            fontWeight: 400,
+            fontSize: "clamp(14px, 1.5vw, 16px)",
+            color: "var(--color-text-muted)",
+            margin: 0,
+            letterSpacing: "0.03em",
+            filter: isMobile ? "none" : `blur(${scrollBlur}px)`,
+            y: isMobile ? 0 : scrollYOffset,
+          }}
+        >
+          student · developer · maker
+        </motion.p>
+      </motion.div>
 
       {loaderDone && (
         <motion.div

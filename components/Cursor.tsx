@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 type CursorVariant = "default" | "link" | "project" | "vinyl" | "listen"
 
@@ -14,6 +15,7 @@ const CURSOR_VARIANTS = {
 }
 
 export default function Cursor() {
+  const isMobile = useIsMobile()
   const [variant, setVariant] = useState<CursorVariant>("default")
   const [isVisible, setIsVisible] = useState(false)
   const variantRef = useRef<CursorVariant>("default")
@@ -72,6 +74,8 @@ export default function Cursor() {
   }, [isVisible, mouseX, mouseY])
 
   const current = CURSOR_VARIANTS[variant]
+
+  if (isMobile) return null
 
   return (
     <motion.div

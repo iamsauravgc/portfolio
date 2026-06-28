@@ -21,7 +21,7 @@ export default function CamObject({ isMobile }: CamObjectProps) {
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.8])
   const layout = isMobile ? heroLayout.mobile.camera : heroLayout.camera
   const { bottom, left, rotate, z, width } = layout
-  const disableParallax = prefersReducedMotion || isMobile
+  const disableMotion = prefersReducedMotion || isMobile
   const disableEffects = prefersReducedMotion
 
   return (
@@ -31,9 +31,9 @@ export default function CamObject({ isMobile }: CamObjectProps) {
         bottom,
         left,
         zIndex: z,
-        y: disableParallax ? 0 : parallaxY,
-        opacity: disableParallax ? 1 : scrollOpacity,
-        scale: disableParallax ? 1 : scrollScale,
+        y: disableMotion ? 0 : parallaxY,
+        opacity: disableEffects ? 1 : scrollOpacity,
+        scale: disableMotion ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -48,9 +48,9 @@ export default function CamObject({ isMobile }: CamObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects || isMobile ? undefined : playShutter}
-          onClick={!disableEffects && isMobile ? playShutter : undefined}
+          onPointerEnter={disableEffects ? undefined : playShutter}
           whileHover={disableEffects ? undefined : { x: 8, y: -6, rotate: -90, scale: 1.06 }}
+          whileTap={disableEffects ? undefined : { x: 8, y: -6, rotate: -90, scale: 1.06 }}
           style={{
             pointerEvents: "auto",
           }}

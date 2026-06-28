@@ -21,7 +21,7 @@ export default function LaptopObject({ isMobile }: LaptopObjectProps) {
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.82])
   const layout = isMobile ? heroLayout.mobile.laptop : heroLayout.laptop
   const { top, right, rotate, z, width } = layout
-  const disableParallax = prefersReducedMotion || isMobile
+  const disableMotion = prefersReducedMotion || isMobile
   const disableEffects = prefersReducedMotion
 
   return (
@@ -31,9 +31,9 @@ export default function LaptopObject({ isMobile }: LaptopObjectProps) {
         top,
         right,
         zIndex: z,
-        y: disableParallax ? 0 : parallaxY,
-        opacity: disableParallax ? 1 : scrollOpacity,
-        scale: disableParallax ? 1 : scrollScale,
+        y: disableMotion ? 0 : parallaxY,
+        opacity: disableEffects ? 1 : scrollOpacity,
+        scale: disableMotion ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -49,8 +49,7 @@ export default function LaptopObject({ isMobile }: LaptopObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
-          onClick={!disableEffects && isMobile ? playSound : undefined}
+          onPointerEnter={disableEffects ? undefined : playSound}
           whileHover={disableEffects ? undefined : {
             filter: [
               "brightness(0.3)",
@@ -58,6 +57,9 @@ export default function LaptopObject({ isMobile }: LaptopObjectProps) {
               "brightness(0.35)",
               "brightness(1.15) drop-shadow(0 0 30px rgba(255,220,160,0.7)) drop-shadow(0 0 60px rgba(255,200,120,0.35))",
             ],
+          }}
+          whileTap={disableEffects ? undefined : {
+            filter: "brightness(1.15) drop-shadow(0 0 30px rgba(255,220,160,0.7)) drop-shadow(0 0 60px rgba(255,200,120,0.35))",
           }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           initial={{ filter: "brightness(0.3)" }}

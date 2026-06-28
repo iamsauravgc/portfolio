@@ -6,18 +6,9 @@ import { useIsMobile } from "@/hooks/useIsMobile"
 
 export default function MobileCaution() {
   const isMobile = useIsMobile()
-  const [dismissed, setDismissed] = useState(true)
+  const [dismissed, setDismissed] = useState(false)
 
-  useEffect(() => {
-    if (!isMobile) return
-    const stored = localStorage.getItem("mobileCautionDismissed")
-    if (!stored) setDismissed(false)
-  }, [isMobile])
-
-  const handleDismiss = () => {
-    setDismissed(true)
-    localStorage.setItem("mobileCautionDismissed", "true")
-  }
+  const handleDismiss = () => setDismissed(true)
 
   if (!isMobile) return null
 

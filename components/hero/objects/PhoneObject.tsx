@@ -21,7 +21,7 @@ export default function PhoneObject({ isMobile }: PhoneObjectProps) {
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.85])
   const layout = isMobile ? heroLayout.mobile.phone : heroLayout.phone
   const { top, left, rotate, z, width } = layout
-  const disableParallax = prefersReducedMotion || isMobile
+  const disableMotion = prefersReducedMotion || isMobile
   const disableEffects = prefersReducedMotion
 
   return (
@@ -31,9 +31,9 @@ export default function PhoneObject({ isMobile }: PhoneObjectProps) {
         top,
         left,
         zIndex: z,
-        y: disableParallax ? 0 : parallaxY,
-        opacity: disableParallax ? 1 : scrollOpacity,
-        scale: disableParallax ? 1 : scrollScale,
+        y: disableMotion ? 0 : parallaxY,
+        opacity: disableEffects ? 1 : scrollOpacity,
+        scale: disableMotion ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -49,9 +49,9 @@ export default function PhoneObject({ isMobile }: PhoneObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
-          onClick={!disableEffects && isMobile ? playSound : undefined}
+          onPointerEnter={disableEffects ? undefined : playSound}
           whileHover={disableEffects ? undefined : { x: [0, -8, 8, -6, 6, -4, 4, 0], rotate: [0, -5, 5, -3, 3, 0] }}
+          whileTap={disableEffects ? undefined : { x: [0, -8, 8, -6, 6, -4, 4, 0], rotate: [0, -5, 5, -3, 3, 0] }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <Image

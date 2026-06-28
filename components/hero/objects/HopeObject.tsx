@@ -20,7 +20,7 @@ export default function HopeObject({ isMobile }: HopeObjectProps) {
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.78])
   const layout = isMobile ? heroLayout.mobile.hope : heroLayout.hope
   const { top, left, rotate, z, width } = layout
-  const disableParallax = prefersReducedMotion || isMobile
+  const disableMotion = prefersReducedMotion || isMobile
   const disableEffects = prefersReducedMotion
 
   return (
@@ -30,9 +30,9 @@ export default function HopeObject({ isMobile }: HopeObjectProps) {
         top,
         left,
         zIndex: z,
-        y: disableParallax ? 0 : parallaxY,
-        opacity: disableParallax ? 1 : scrollOpacity,
-        scale: disableParallax ? 1 : scrollScale,
+        y: disableMotion ? 0 : parallaxY,
+        opacity: disableEffects ? 1 : scrollOpacity,
+        scale: disableMotion ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -47,9 +47,9 @@ export default function HopeObject({ isMobile }: HopeObjectProps) {
         }}
       >
         <motion.div
-          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
-          onClick={!disableEffects && isMobile ? playSound : undefined}
+          onPointerEnter={disableEffects ? undefined : playSound}
           whileHover={disableEffects ? undefined : { scale: 1.25, y: 10, rotate: 0, rotateX: -4 }}
+          whileTap={disableEffects ? undefined : { scale: 1.25, y: 10, rotate: 0, rotateX: -4 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
           style={{
             pointerEvents: "auto",

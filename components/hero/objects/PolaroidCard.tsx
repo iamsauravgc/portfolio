@@ -21,7 +21,7 @@ export default function PolaroidCard({ isMobile }: PolaroidCardProps) {
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.82])
   const layout = isMobile ? heroLayout.mobile.polaroid : heroLayout.polaroid
   const { bottom, right, rotate, z, width } = layout
-  const disableParallax = prefersReducedMotion || isMobile
+  const disableMotion = prefersReducedMotion || isMobile
   const disableEffects = prefersReducedMotion
 
   return (
@@ -31,9 +31,9 @@ export default function PolaroidCard({ isMobile }: PolaroidCardProps) {
         bottom,
         right,
         zIndex: z,
-        y: disableParallax ? 0 : parallaxY,
-        opacity: disableParallax ? 1 : scrollOpacity,
-        scale: disableParallax ? 1 : scrollScale,
+        y: disableMotion ? 0 : parallaxY,
+        opacity: disableEffects ? 1 : scrollOpacity,
+        scale: disableMotion ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -49,8 +49,7 @@ export default function PolaroidCard({ isMobile }: PolaroidCardProps) {
         }}
       >
         <div
-          onMouseEnter={disableEffects || isMobile ? undefined : playSound}
-          onClick={!disableEffects && isMobile ? playSound : undefined}
+          onPointerEnter={disableEffects ? undefined : playSound}
           style={{ position: "relative", lineHeight: 0 }}
         >
           <Image
@@ -64,6 +63,7 @@ export default function PolaroidCard({ isMobile }: PolaroidCardProps) {
           <motion.div
             initial={{ opacity: 0 }}
             whileHover={disableEffects ? undefined : { opacity: [0.85, 0] }}
+            whileTap={disableEffects ? undefined : { opacity: 0 }}
             transition={{ duration: 0.35 }}
             style={{
               position: "absolute",

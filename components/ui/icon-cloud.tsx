@@ -41,7 +41,7 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
   const rotationRef = useRef({ x: 0, y: 0 })
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([])
   const imagesLoadedRef = useRef<boolean[]>([])
-  const isVisibleRef = useRef(true)
+
 
   // Create icon canvases once when icons/images change
   useEffect(() => {
@@ -216,21 +216,94 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
     setIsDragging(false)
   }
 
-  // Pause animation when off-screen
-  useEffect(() => {
-    const el = canvasRef.current
-    if (!el) return
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const rect = canvasRef.current?.getBoundingClientRect()
+    if (!rect || !canvasRef.current) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => { isVisibleRef.current = entry.isIntersecting },
-      { threshold: 0 }
-    )
-    observer.observe(el)
+    const touch = e.touches[0]
+    const x = touch.clientX - rect.left
+    const y = touch.clientY - rect.top
 
-    return () => {
-      observer.disconnect()
+    const ctx = canvasRef.current.getContext("2d")
+    if (!ctx) return
+
+    iconPositions.forEach((icon) => {
+      const cosX = Math.cos(rotationRef.current.x)
+      const sinX = Math.sin(rotationRef.current.x)
+      const cosY = Math.cos(rotationRef.current.y)
+      const sinY = Math.sin(rotationRef.current.y)
+
+      const rotatedX = icon.x * cosY - icon.z * sinY
+      const rotatedZ = icon.x * sinY + icon.z * cosY
+      const rotatedY = icon.y * cosX + rotatedZ * sinX
+
+      const screenX = canvasRef.current!.width / 2 + rotatedX
+      const screenY = canvasRef.current!.height / 2 + rotatedY
+
+      const scale = (rotatedZ + 380) / 570
+      const radius = (iconSize / 2) * scale
+      const dx = x - screenX
+      const dy = y - screenY
+
+      if (dx * dx + dy * dy < radius * radius) {
+        const targetX = -Math.atan2(
+          icon.y,
+          Math.sqrt(icon.x * icon.x + icon.z * icon.z)
+        )
+        const targetY = Math.atan2(icon.x, icon.z)
+
+        const currentX = rotationRef.current.x
+        const currentY = rotationRef.current.y
+        const distance = Math.sqrt(
+          Math.pow(targetX - currentX, 2) + Math.pow(targetY - currentY, 2)
+        )
+
+        const duration = Math.min(2000, Math.max(800, distance * 1000))
+
+        setTargetRotation({
+          x: targetX,
+          y: targetY,
+          startX: currentX,
+          startY: currentY,
+          distance,
+          startTime: performance.now(),
+          duration,
+        })
+        return
+      }
+    })
+
+    setIsDragging(true)
+    setLastMousePos({ x: touch.clientX, y: touch.clientY })
+  }
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const rect = canvasRef.current?.getBoundingClientRect()
+    const touch = e.touches[0]
+    if (rect) {
+      const x = touch.clientX - rect.left
+      const y = touch.clientY - rect.top
+      setMousePos({ x, y })
     }
-  }, [])
+
+    if (isDragging) {
+      const deltaX = touch.clientX - lastMousePos.x
+      const deltaY = touch.clientY - lastMousePos.y
+
+      rotationRef.current = {
+        x: rotationRef.current.x + deltaY * 0.005,
+        y: rotationRef.current.y + deltaX * 0.005,
+      }
+
+      setLastMousePos({ x: touch.clientX, y: touch.clientY })
+    }
+  }
+
+  const handleTouchEnd = () => {
+    setIsDragging(false)
+  }
+
+
 
   // Animation and rendering
   useEffect(() => {
@@ -239,14 +312,6 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
     if (canvas && ctx) {
       const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-        const centerX = canvas.width / 2
-        const centerY = canvas.height / 2
-        const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY)
-        const dx = mousePos.x - centerX
-        const dy = mousePos.y - centerY
-        const distance = Math.sqrt(dx * dx + dy * dy)
-        const speed = 0.006 + (distance / maxDistance) * 0.02
 
         if (targetRotation) {
           const elapsed = performance.now() - targetRotation.startTime
@@ -267,8 +332,8 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
           }
         } else if (!isDragging) {
           rotationRef.current = {
-            x: rotationRef.current.x + (dy / canvas.height) * speed,
-            y: rotationRef.current.y + (dx / canvas.width) * speed,
+            x: rotationRef.current.x + 0.003,
+            y: rotationRef.current.y + 0.003,
           }
         }
 
@@ -317,9 +382,7 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
 
           ctx.restore()
         })
-        if (isVisibleRef.current) {
-          animationFrameRef.current = requestAnimationFrame(animate)
-        }
+        animationFrameRef.current = requestAnimationFrame(animate)
       }
 
       animate()
@@ -330,7 +393,7 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [icons, images, iconPositions, isDragging, mousePos, targetRotation])
+  }, [icons, images, iconPositions, isDragging, targetRotation])
 
   return (
     <canvas
@@ -341,6 +404,9 @@ export function IconCloud({ icons, images, size = 500, iconSize = 56 }: IconClou
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       className="rounded-lg"
       aria-label="Interactive 3D Icon Cloud"
       role="img"

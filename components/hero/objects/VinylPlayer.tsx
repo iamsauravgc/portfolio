@@ -25,7 +25,7 @@ export function VinylPlayer({ isMobile }: VinylPlayerProps) {
   const scrollScale = useTransform(scrollY, [0, 400], [1, 0.78]);
   const layout = isMobile ? heroLayout.mobile.vinyl : heroLayout.vinyl
   const { top, left, rotate, z, width } = layout
-  const disableParallax = prefersReducedMotion || isMobile
+  const disableMotion = prefersReducedMotion || isMobile
   const disableEffects = prefersReducedMotion
 
   const initAudio = () => {
@@ -77,7 +77,7 @@ export function VinylPlayer({ isMobile }: VinylPlayerProps) {
   };
 
   return (
-    <motion.div
+      <motion.div
       style={{
         position: "absolute",
         top,
@@ -85,9 +85,9 @@ export function VinylPlayer({ isMobile }: VinylPlayerProps) {
         width: width,
         height: width,
         zIndex: z,
-        y: disableParallax ? 0 : parallaxY,
-        opacity: disableParallax ? 1 : scrollOpacity,
-        scale: disableParallax ? 1 : scrollScale,
+        y: disableMotion ? 0 : parallaxY,
+        opacity: disableEffects ? 1 : scrollOpacity,
+        scale: disableMotion ? 1 : scrollScale,
       }}
     >
       <motion.div
@@ -164,7 +164,7 @@ export function VinylPlayer({ isMobile }: VinylPlayerProps) {
             style={{
               width: "100%",
               height: "100%",
-              rotate: disableParallax ? 0 : scrollRotate,
+              rotate: disableMotion ? 0 : scrollRotate,
             }}
           >
             <div

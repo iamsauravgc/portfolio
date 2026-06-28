@@ -5,9 +5,9 @@ import dynamic from "next/dynamic"
 
 import Cursor from "@/components/Cursor"
 import Loader from "@/components/Loader"
-import MobileCaution from "@/components/MobileCaution"
 import ScrollProgress from "@/components/ui/scroll-progress"
 
+const MobileCaution = dynamic(() => import("@/components/MobileCaution"), { ssr: false })
 const HeroSection = dynamic(() => import("@/components/hero/HeroSection"), { ssr: false })
 const WhoAmI = dynamic(() => import("@/components/sections/WhoAmI"), { ssr: false })
 const Projects = dynamic(() => import("@/components/sections/Projects"), { ssr: false })

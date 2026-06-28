@@ -26,6 +26,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url)
 
   if (url.origin !== self.location.origin) return
+  if (url.pathname.startsWith("/_next/")) return
 
   if (
     request.destination === "style" ||
@@ -34,8 +35,7 @@ self.addEventListener("fetch", (event) => {
     request.destination === "image" ||
     url.pathname.startsWith("/fonts/") ||
     url.pathname.startsWith("/images/") ||
-    url.pathname.startsWith("/sounds/") ||
-    url.pathname.startsWith("/_next/static/")
+    url.pathname.startsWith("/sounds/")
   ) {
     event.respondWith(
       caches.match(request).then((cached) => {
